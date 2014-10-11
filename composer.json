@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "nodge/yii2-eauth": "~2.0"
+        "nodge/yii2-eauth": "~2.0",
+        "vladkens/vk": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2": "2.0.0-beta",

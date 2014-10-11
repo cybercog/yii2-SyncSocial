@@ -11,6 +11,11 @@ interface INetwork {
     /**
      * @return mixed
      */
+    public function getAuthorizeURL();
+
+    /**
+     * @return mixed
+     */
     public function getPosts();
 
     /**

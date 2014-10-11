@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "kertz/twitteroauth": "dev-master@dev",
+        "kertz/twitteroauth": "dev-master",
         "vladkens/vk": "dev-master"
     },
     "require-dev": {

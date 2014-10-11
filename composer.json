@@ -13,6 +13,9 @@
         "yiisoft/yii2": "*",
         "nodge/yii2-eauth": "~2.0"
     },
+    "require-dev": {
+        "yiisoft/yii2-codeception": "*"
+    },
     "autoload": {
         "psr-4": {
             "xifrin\\SyncSocial\\": "src/"

@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "xifrin\\yii2-SyncSocial\\": "src/"
+            "xifrin\\SyncSocial\\": "src/"
         }
     }
 }

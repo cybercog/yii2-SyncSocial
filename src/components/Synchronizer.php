@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
 
-Yii::setAlias('@SyncSocial', dirname(dirname(__DIR__)));
+Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
 
 /**
  * Class Synchronizer
@@ -20,6 +20,11 @@ class Synchronizer extends Component {
     const DEFAULT_TIMEOUT = 18000;
 
     /**
+     * @var array
+     */
+    protected $objects = array();
+
+    /**
      * @var
      */
     public $timeout;
@@ -30,6 +35,11 @@ class Synchronizer extends Component {
     public $services = array();
 
     /**
+     * @var callable
+     */
+    public $callbackUrl;
+
+    /**
      * @var string
      */
     public $model;
@@ -37,46 +47,74 @@ class Synchronizer extends Component {
     /**
      * @throws ErrorException
      */
-    public function init()
-    {
-        if (empty($this->model)) {
-            throw new ErrorException( Yii::t( 'SyncSocial', 'Model name must be specified' ) );
-        }
-
-        if (!class_exists($this->model)) {
-            throw new ErrorException( Yii::t( 'SyncSocial', 'Model class is not exists' ) );
-        }
-
-        $this->timeout = $this->timeout === null ? DEFAULT_TIMEOUT : $this->timeout;
+    public function init() {
+        $this->timeout = $this->timeout === null ? self::DEFAULT_TIMEOUT : $this->timeout;
     }
 
     /**
      * @return array
      */
-    public function getServiceList()
-    {
-        return array_keys($this->services);
+    public function getServiceList() {
+        return array_keys( $this->services );
+    }
+
+    /**
+     * @param $serviceName
+     *
+     * @return mixed
+     */
+    public function getService( $serviceName, array $settings = array() ) {
+        if ( ! isset( $this->objects[ $serviceName ] ) ) {
+
+            $class = 'xifrin\\SyncSocial\\components\\networks\\' . ucfirst( $serviceName );
+
+            if ( class_exists( $class ) ) {
+                $this->objects[ $serviceName ] = new $class( array_merge(
+                    isset( $this->services[ $serviceName ] ) ? $this->services[ $serviceName ] : [ ],
+                    $settings
+                ) );
+            }
+        }
+
+        return $this->objects[ $serviceName ];
+    }
+
+    /**
+     * @param null $serviceName
+     */
+    public function getConnectUrl( $serviceName = null ) {
+
+        $callbackUrl = null;
+        if ( is_callable( $this->callbackUrl ) && $this->callbackUrl instanceof Closure ) {
+            $callbackUrl = $this->callbackUrl( $serviceName );
+        }
+
+        $service = $this->getService( $serviceName, [
+            'callback_url' => $callbackUrl
+        ] );
+
+        return $service->getAuthorizeURL();
     }
 
     /**
      * Has token
      *
-     * @param null $networkName
+     * @param null $serviceName
      *
      * @return bool
      */
-    public function hasToken($networkName = null) {
-        return Yii::$app->cache->exists( 'social.' . $networkName . '.token' );
+    public function isConnected( $serviceName = null ) {
+        return Yii::$app->cache->exists( 'social.' . $serviceName . '.token' );
     }
 
     /**
-     * @param null $networkName
+     * @param null $serviceName
      *
      * @return bool
      */
-    public function isExpired($networkName = null)
-    {
-        $lastTime = (int)Yii::$app->cache->get( 'social.' . $networkName . '.lastTime');
-        return (time() - $lastTime) > $this->timeout;
+    public function isExpired( $serviceName = null ) {
+        $lastTime = (int) Yii::$app->cache->get( 'social.' . $serviceName . '.lastTime' );
+
+        return ( time() - $lastTime ) > $this->timeout;
     }
 }

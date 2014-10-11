@@ -1,0 +1,21 @@
+{
+    "name": "xifrin/yii2-SyncSocial",
+    "keywords": ["yii2", "extension", "social", "network", "sync", "synchronize"],
+    "type": "yii2-extension",
+    "authors": [
+        {
+            "name": "Sergey Ivanov",
+            "email": "xifrin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "nodge/yii2-eauth": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "xifrin\\yii2-SyncSocial\\": "src/"
+        }
+    }
+}

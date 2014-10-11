@@ -45,6 +45,19 @@ class Vkontakte extends Object implements iNetwork {
     }
 
     /**
+     * @param null $code
+     *
+     * @return array
+     * @throws \VK\VKException
+     */
+    public function getToken($code = null) {
+        return $this->provider->getAccessToken(
+            $code,
+            isset( $settings['callback_url'] ) ? $settings['callback_url'] : null
+        );
+    }
+
+    /**
      * @return mixed
      */
     public function getPosts() {

@@ -11,16 +11,9 @@
             "email": "xifrin@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "version": "1.0.0",
-            "url": "https://github.com/kertz/twitteroauth"
-        }
-    ],
     "require": {
         "php": ">=5.4.0",
-        "kertz/twitteroauth": "1.0.0",
+        "kertz/twitteroauth": "dev-master",
         "vladkens/vk": "0.1.7"
     },
     "require-dev": {

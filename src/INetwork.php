@@ -28,8 +28,4 @@ interface INetwork {
      */
     public function publishPost();
 
-    /**
-     * @return mixed
-     */
-    public function deletePost();
 }

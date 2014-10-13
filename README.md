@@ -1,4 +1,4 @@
-yii2-SyncSocial
+yii2-SyncSocial [alpha]
 ===============
 
 
@@ -21,4 +21,22 @@ Add the following in your config:
         )
         // ..
     ),
+```
+
+
+
+Add the following in your controller:
+```php
+        public function actions() {
+            return [
+                'connect' => [
+                    'class'      => 'xifrin\SyncSocial\actions\ConnectAction',
+                    'successUrl' => 'admin/sync/index',
+                    'failedUrl'  => 'admin/sync/index'
+                ],
+                'run'     => [
+                    'class' => 'xifrin\SyncSocial\actions\RunAction'
+                ]
+            ];
+        }
 ```

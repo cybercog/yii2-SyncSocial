@@ -4,8 +4,8 @@ yii2-SyncSocial [alpha]
 
 Extension supports these social networks:
 
-* vkotakte
-* twitter
+* [vkontakte](https://vk.com)
+* [twitter](https://twitter.com)
 
 ### Configuration
 

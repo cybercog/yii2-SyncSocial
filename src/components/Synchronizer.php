@@ -2,9 +2,11 @@
 
 namespace xifrin\SyncSocial\components;
 
+use Closure;
 use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
+use yii\helpers\ArrayHelper;
 
 Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
 
@@ -35,7 +37,7 @@ class Synchronizer extends Component {
     public $services = array();
 
     /**
-     * @var callable
+     * @var Closure
      */
     public $callbackUrl;
 
@@ -61,18 +63,39 @@ class Synchronizer extends Component {
     /**
      * @param $serviceName
      *
+     * @return array
+     */
+    protected function getServiceSettings( $serviceName = null, $flagNewConnection = false) {
+
+        $callbackUrl = null;
+        $function    = $this->callbackUrl;
+        if ( is_callable( $function ) && ( $function instanceof Closure ) ) {
+            $callbackUrl = $function( $serviceName );
+        }
+
+        return ArrayHelper::merge(
+            isset( $this->services[ $serviceName ] ) ? $this->services[ $serviceName ] : [ ],
+            [
+                'connection' => [
+                    'client_token' => $flagNewConnection ? null : $this->getToken( $serviceName ),
+                    'callback_url' => $callbackUrl
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param $serviceName
+     * @param bool $flagNewConnection is new connection
+     *
      * @return mixed
      */
-    public function getService( $serviceName, array $settings = array() ) {
+    public function getService( $serviceName, $flagNewConnection = false) {
+
         if ( ! isset( $this->objects[ $serviceName ] ) ) {
-
             $class = 'xifrin\\SyncSocial\\components\\networks\\' . ucfirst( $serviceName );
-
             if ( class_exists( $class ) ) {
-                $this->objects[ $serviceName ] = new $class( array_merge(
-                    isset( $this->services[ $serviceName ] ) ? $this->services[ $serviceName ] : [ ],
-                    $settings
-                ) );
+                $this->objects[ $serviceName ] = new $class( $this->getServiceSettings( $serviceName, $flagNewConnection ) );
             }
         }
 
@@ -83,17 +106,51 @@ class Synchronizer extends Component {
      * @param null $serviceName
      */
     public function getConnectUrl( $serviceName = null ) {
-
-        $callbackUrl = null;
-        if ( is_callable( $this->callbackUrl ) && $this->callbackUrl instanceof Closure ) {
-            $callbackUrl = $this->callbackUrl( $serviceName );
-        }
-
-        $service = $this->getService( $serviceName, [
-            'callback_url' => $callbackUrl
-        ] );
-
+        $service = $this->getService( $serviceName );
         return $service->getAuthorizeURL();
+    }
+
+    /**
+     * @param null $serviceName
+     *
+     * @return mixed
+     */
+    public function publishServicePost( $serviceName = null ) {
+        $service = $this->getService( $serviceName );
+        return $service->publishPost();
+    }
+
+    /**
+     * Set token
+     *
+     * @param null $serviceName
+     *
+     * @return bool
+     */
+    public function setToken( $serviceName = null, $tokenValue = null ) {
+        return  Yii::$app->cache->set( 'social.' . $serviceName . '.token', $tokenValue );
+    }
+
+    /**
+     * Reset token
+     *
+     * @param null $serviceName
+     *
+     * @return bool
+     */
+    public function resetToken( $serviceName = null ) {
+        return Yii::$app->cache->delete( 'social.' . $serviceName . '.token' );
+    }
+
+    /**
+     * Get token
+     *
+     * @param null $serviceName
+     *
+     * @return bool
+     */
+    public function getToken( $serviceName = null ) {
+        return Yii::$app->cache->get( 'social.' . $serviceName . '.token', null );
     }
 
     /**
@@ -107,6 +164,7 @@ class Synchronizer extends Component {
         return Yii::$app->cache->exists( 'social.' . $serviceName . '.token' );
     }
 
+
     /**
      * @param null $serviceName
      *
@@ -114,7 +172,6 @@ class Synchronizer extends Component {
      */
     public function isExpired( $serviceName = null ) {
         $lastTime = (int) Yii::$app->cache->get( 'social.' . $serviceName . '.lastTime' );
-
         return ( time() - $lastTime ) > $this->timeout;
     }
 }

@@ -5,12 +5,13 @@ namespace xifrin\SyncSocial\components\networks;
 use Yii;
 use TwitterOAuth;
 use yii\base\Object;
+use xifrin\SyncSocial\iNetwork;
 
 /**
  * Class Twitter
  * @package xifrin\SyncSocial\components\networks
  */
-class Twitter extends Object implements iNetwork {
+class Twitter extends Object implements INetwork {
 
     /**
      * @var VK
@@ -27,23 +28,44 @@ class Twitter extends Object implements iNetwork {
      */
     public function __construct( array $settings = array() ) {
 
-        $this->settings = $settings;
+        $connection = isset($settings['connection']) ? $settings['connection'] : [];
 
         $this->provider = new TwitterOAuth(
-            isset( $settings['client_id'] ) ? $settings['client_id'] : null,
-            isset( $settings['client_secret'] ) ? $settings['client_secret'] : null
+            isset( $connection['client_id'] ) ? $connection['client_id'] : null,
+            isset( $connection['client_secret'] ) ? $connection['client_secret'] : null
         );
+
+        $this->settings = $settings;
     }
 
     /**
-     * @return \a
+     *
+     * @return array
+     * @throws \VK\VKException
+     */
+    public function getAccessToken() {
+
+        // @TODO: check this
+        $verifier = $_REQUEST['oauth_verifier'];
+
+        return $this->provider->getAccessToken($verifier);
+    }
+
+
+    /**
+     * @return \a|mixed
      */
     public function getAuthorizeURL() {
 
-        $callback_url = isset( $settings['callback_url'] ) ? $settings['callback_url'] : null;
-        $credentials = $this->provider->getRequestToken($callback_url);
 
-        return $this->provider->getAuthorizeUrl($credentials);
+        $connection = isset( $this->settings['connection'] ) ? $this->settings['connection'] : [ ];
+
+        $callback_url = isset( $connection['callback_url'] ) ? $connection['callback_url'] : null;
+        $credentials = $this->provider->getRequestToken( $callback_url );
+
+        if ( isset( $credentials['oauth_token'] ) ) {
+            return $this->provider->getAuthorizeUrl( $credentials );
+        }
     }
 
     /**

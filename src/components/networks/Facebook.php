@@ -3,9 +3,10 @@
 namespace xifrin\SyncSocial\components\networks;
 
 use Yii;
-use SyncSocial\components;
+use yii\base\Object;
+use xifrin\SyncSocial\INetwork;
 
-class Facebook extends Object implements iNetwork {
+class Facebook extends Object implements INetwork {
 
     /**
      * @return mixed

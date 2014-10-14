@@ -70,12 +70,13 @@ Add the following in your controller:
 ```php
         public function actions() {
             return [
-                'connect' => [
-                    'class'      => 'xifrin\SyncSocial\actions\ConnectAction',
-                    'successUrl' => 'admin/sync/index',
-                    'failedUrl'  => 'admin/sync/index'
+                'connect'    => [
+                    'class' => 'xifrin\SyncSocial\actions\ConnectAction'
                 ],
-                'run'     => [
+                'disconnect' => [
+                    'class' => 'xifrin\SyncSocial\actions\DisconnectAction'
+                ],
+                'run'        => [
                     'class' => 'xifrin\SyncSocial\actions\RunAction'
                 ]
             ];

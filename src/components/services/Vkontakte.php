@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\components\networks;
+namespace xifrin\SyncSocial\components\services;
 
 use Yii;
 use VK\VK;

@@ -4,10 +4,8 @@ namespace xifrin\SyncSocial\components\services;
 
 use Yii;
 
-use OAuth\OAuth1\Service\Twitter;
-
-\OAuth\ServiceFactory
-
+use OAuth\ServiceFactory;
+use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
 
 use yii\base\Object;
@@ -23,6 +21,11 @@ class Twitter extends Object implements INetwork {
      * @var VK
      */
     protected $service;
+
+    /**
+     * @var Session
+     */
+    protected $storage;
 
     /**
      * @var array
@@ -43,40 +46,44 @@ class Twitter extends Object implements INetwork {
         );
 
         $serviceFactory = new ServiceFactory();
-        $twitterService = $serviceFactory->createService('twitter', $credentials, $storage);
 
-
+        $this->storage = new Session();
+        $this->service = $serviceFactory->createService('twitter', $credentials, $this->storage);
         $this->settings = $settings;
     }
 
     /**
-     *
-     * @return array
-     * @throws \VK\VKException
+     * @return mixed
+     * @throws \OAuth\Common\Storage\Exception\TokenNotFoundException
      */
     public function getAccessToken() {
 
-        // @TODO: check this
-        $verifier = $_REQUEST['oauth_verifier'];
+        $token = $this->storage->retrieveAccessToken('Twitter');
 
-        return $this->provider->getAccessToken($verifier);
+        // This was a callback request from twitter, get the token
+        $this->service->requestAccessToken(
+            $_GET['oauth_token'],
+            $_GET['oauth_verifier'],
+            $token->getRequestTokenSecret()
+        );
+
+        // Send a request now that we have access token
+        $result = json_decode($this->service->request('account/verify_credentials.json'));
+
+        print_r($result);
+
+        die();
     }
 
 
     /**
-     * @return \a|mixed
+     * @return mixed|\OAuth\Common\Http\Uri\UriInterface
      */
     public function getAuthorizeURL() {
-
-
-        $connection = isset( $this->settings['connection'] ) ? $this->settings['connection'] : [ ];
-
-        $callback_url =
-        $credentials = $this->provider->getRequestToken( $callback_url );
-
-        if ( isset( $credentials['oauth_token'] ) ) {
-            return $this->provider->getAuthorizeUrl( $credentials );
-        }
+        $token = $this->service->requestRequestToken();
+        return $this->service->getAuthorizationUri(array(
+            'oauth_token' => $token->getRequestToken()
+        ));
     }
 
     /**

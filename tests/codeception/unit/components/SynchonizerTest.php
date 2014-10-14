@@ -20,7 +20,7 @@ class SynchonizerTest extends \yii\codeception\TestCase
     }
     public function testInitialComponent()
     {
-        $services = [
+        $settings = [
             'social_1' => [],
             'social_2' => [],
             'social_3' => [],
@@ -28,10 +28,10 @@ class SynchonizerTest extends \yii\codeception\TestCase
         ];
 
         $synchronizer = new Synchronizer( array(
-            'services' => $services
+            'settings' => $settings
         ) );
 
         $list = $synchronizer->getServiceList();
-        $this->assertTrue(array_keys($services) === $list);
+        $this->assertTrue(array_keys($settings) === $list);
     }
 }

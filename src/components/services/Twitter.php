@@ -1,9 +1,15 @@
 <?php
 
-namespace xifrin\SyncSocial\components\networks;
+namespace xifrin\SyncSocial\components\services;
 
 use Yii;
-use TwitterOAuth;
+
+use OAuth\OAuth1\Service\Twitter;
+
+\OAuth\ServiceFactory
+
+use OAuth\Common\Consumer\Credentials;
+
 use yii\base\Object;
 use xifrin\SyncSocial\iNetwork;
 
@@ -16,7 +22,7 @@ class Twitter extends Object implements INetwork {
     /**
      * @var VK
      */
-    protected $provider;
+    protected $service;
 
     /**
      * @var array
@@ -30,10 +36,15 @@ class Twitter extends Object implements INetwork {
 
         $connection = isset($settings['connection']) ? $settings['connection'] : [];
 
-        $this->provider = new TwitterOAuth(
-            isset( $connection['client_id'] ) ? $connection['client_id'] : null,
-            isset( $connection['client_secret'] ) ? $connection['client_secret'] : null
+        $credentials = new Credentials(
+            isset( $connection['key'] ) ? $connection['key'] : null,
+            isset( $connection['secret'] ) ? $connection['secret'] : null,
+            isset( $connection['callback_url'] ) ? $connection['callback_url'] : null
         );
+
+        $serviceFactory = new ServiceFactory();
+        $twitterService = $serviceFactory->createService('twitter', $credentials, $storage);
+
 
         $this->settings = $settings;
     }
@@ -60,7 +71,7 @@ class Twitter extends Object implements INetwork {
 
         $connection = isset( $this->settings['connection'] ) ? $this->settings['connection'] : [ ];
 
-        $callback_url = isset( $connection['callback_url'] ) ? $connection['callback_url'] : null;
+        $callback_url =
         $credentials = $this->provider->getRequestToken( $callback_url );
 
         if ( isset( $credentials['oauth_token'] ) ) {

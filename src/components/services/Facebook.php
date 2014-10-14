@@ -2,44 +2,17 @@
 
 namespace xifrin\SyncSocial\components\services;
 
-use Yii;
-use yii\base\Object;
-use xifrin\SyncSocial\INetwork;
+use xifrin\SyncSocial\SyncService;
 
-class Facebook extends Object implements INetwork {
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizeURL() {
-
-    }
+/**
+ * Class Twitter
+ * @package xifrin\SyncSocial\components\services
+ */
+class Facebook extends SyncService {
 
     /**
-     * @return mixed
+     * @var \OAuth\OAuth2\Service\Facebook
      */
-    public function getPosts() {
+    protected $service;
 
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPost() {
-
-    }
-
-    /**
-     * @return mixed
-     */
-    public function publishPost() {
-
-    }
-
-    /**
-     * @return mixed
-     */
-    public function deletePost() {
-
-    }
 }

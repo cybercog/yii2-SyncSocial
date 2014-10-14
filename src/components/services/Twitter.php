@@ -2,115 +2,57 @@
 
 namespace xifrin\SyncSocial\components\services;
 
-use Yii;
-
-use OAuth\ServiceFactory;
-use OAuth\Common\Storage\Session;
-use OAuth\Common\Consumer\Credentials;
-
-use yii\base\Object;
-use xifrin\SyncSocial\iNetwork;
+use OAuth\Common\Exception\Exception;
+use xifrin\SyncSocial\SyncService;
 
 /**
  * Class Twitter
- * @package xifrin\SyncSocial\components\networks
+ * @package xifrin\SyncSocial\components\services
  */
-class Twitter extends Object implements INetwork {
+class Twitter extends SyncService {
 
     /**
-     * @var VK
+     * @var \OAuth\OAuth1\Service\Twitter
      */
     protected $service;
 
     /**
-     * @var Session
+     * @return mixed|\OAuth\Common\Http\Uri\UriInterface
      */
-    protected $storage;
+    public function getAuthorizationUri() {
+        $token = $this->service->requestRequestToken();
 
-    /**
-     * @var array
-     */
-    public $settings = array();
-
-    /**
-     * @param array $settings
-     */
-    public function __construct( array $settings = array() ) {
-
-        $connection = isset($settings['connection']) ? $settings['connection'] : [];
-
-        $credentials = new Credentials(
-            isset( $connection['key'] ) ? $connection['key'] : null,
-            isset( $connection['secret'] ) ? $connection['secret'] : null,
-            isset( $connection['callback_url'] ) ? $connection['callback_url'] : null
-        );
-
-        $serviceFactory = new ServiceFactory();
-
-        $this->storage = new Session();
-        $this->service = $serviceFactory->createService('twitter', $credentials, $this->storage);
-        $this->settings = $settings;
+        return $this->service->getAuthorizationUri( array(
+            'oauth_token' => $token->getRequestToken()
+        ) );
     }
 
     /**
-     * @return mixed
-     * @throws \OAuth\Common\Storage\Exception\TokenNotFoundException
+     * @return mixed|\OAuth\Common\Token\TokenInterface|\OAuth\OAuth1\Token\TokenInterface|string
+     * @throws Exception
      */
     public function getAccessToken() {
+        if ( empty( $_GET['oauth_token'] ) || empty( $_GET['oauth_verifier'] ) ) {
+            throw new Exception( "Oauth token must be specified" );
+        }
 
-        $token = $this->storage->retrieveAccessToken('Twitter');
+        $storage = $this->service->getStorage();
+        $token   = $storage->retrieveAccessToken( $this->service->service() );
 
-        // This was a callback request from twitter, get the token
-        $this->service->requestAccessToken(
+        return $this->service->requestAccessToken(
             $_GET['oauth_token'],
             $_GET['oauth_verifier'],
             $token->getRequestTokenSecret()
         );
-
-        // Send a request now that we have access token
-        $result = json_decode($this->service->request('account/verify_credentials.json'));
-
-        print_r($result);
-
-        die();
-    }
-
-
-    /**
-     * @return mixed|\OAuth\Common\Http\Uri\UriInterface
-     */
-    public function getAuthorizeURL() {
-        $token = $this->service->requestRequestToken();
-        return $this->service->getAuthorizationUri(array(
-            'oauth_token' => $token->getRequestToken()
-        ));
     }
 
     /**
      * @return mixed
      */
-    public function getPosts() {
+    public function getPosts($limit = 200 ) {
 
-    }
+        $response = $this->service->request('statuses/home_timeline');
 
-    /**
-     * @return mixed
-     */
-    public function getPost() {
-
-    }
-
-    /**
-     * @return mixed
-     */
-    public function publishPost() {
-
-    }
-
-    /**
-     * @return mixed
-     */
-    public function deletePost() {
 
     }
 }

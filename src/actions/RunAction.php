@@ -5,18 +5,28 @@ namespace xifrin\SyncSocial\actions;
 use Yii;
 use yii\base\Action;
 
+/**
+ * Class RunAction
+ * @package xifrin\SyncSocial\actions
+ */
 class RunAction extends Action
 {
-    protected $synchronizer;
-
+    /**
+     * @var string
+     */
     public $componentName = 'synchronizer';
 
+    /**
+     * @param $service
+     */
     public function run($service)
     {
-        $this->synchronizer = Yii::$app->{$this->componentName};
+        $synchronizer = Yii::$app->{$this->componentName};
 
-        if ($this->synchronizer->isConnected($service)){
-            $this->synchronizer->publishServicePost($service);
+        if ($synchronizer->isConnected($service)){
+
+            $service = $synchronizer->getService($service);
+            $service->getPosts();
         }
 
     }

@@ -3,25 +3,15 @@
 namespace xifrin\SyncSocial;
 
 /**
- * Interface INetwork
+ * Interface ISyncService
  * @package xifrin\SyncSocial
  */
-interface INetwork {
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizeURL();
+interface ISyncService {
 
     /**
      * @return mixed
      */
     public function getPosts();
-
-    /**
-     * @return mixed
-     */
-    public function getPost();
 
     /**
      * @return mixed

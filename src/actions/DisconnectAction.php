@@ -10,7 +10,7 @@ use yii\base\Action;
  * Class ConnectAction
  * @package xifrin\SyncSocial\actions
  */
-class ConnectAction extends Action {
+class DisconnectAction extends Action {
 
     /**
      * @var
@@ -56,13 +56,12 @@ class ConnectAction extends Action {
         $this->initialRedirectUrl();
 
         $synchronizer = Yii::$app->{$this->componentName};
-        $flagConnect = $synchronizer->connect( $service );
 
-        if ( $flagConnect) {
-            Yii::$app->session->setFlash('success', Yii::t('SyncSocial', 'Service was successfully connected'));
+        if ( $synchronizer->disconnect( $service ) ) {
+            Yii::$app->session->setFlash( 'success', Yii::t( 'SyncSocial', 'Service was successfully disconnected' ) );
             $this->controller->redirect( $this->successUrl );
         } else {
-            Yii::$app->session->setFlash('warning', Yii::t('SyncSocial', 'Service could not be connected'));
+            Yii::$app->session->setFlash( 'warning', Yii::t( 'SyncSocial', 'There is error in disconnection' ) );
             $this->controller->redirect( $this->failedUrl );
         }
     }

@@ -1,6 +1,8 @@
 yii2-SyncSocial [alpha]
 ===============
 
+[![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
+[![Travis Status](https://travis-ci.org/xifrin/yii2-SyncSocial.svg?branch=master)](https://travis-ci.org/xifrin/yii2-SyncSocial)
 
 Extension supports these social networks:
 

@@ -27,14 +27,11 @@ class SynchonizerTest extends \yii\codeception\TestCase
             'social_4' => [],
         ];
 
-        $this->setExpectedException('ErrorException');
-
         $synchronizer = new Synchronizer( array(
             'services' => $services
         ) );
 
-
         $list = $synchronizer->getServiceList();
-        $this->assertTrue(array_keys($services) === array_keys($list));
+        $this->assertTrue(array_keys($services) === $list);
     }
 }

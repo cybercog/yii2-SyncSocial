@@ -12,7 +12,7 @@ use xifrin\SyncSocial\components\services\Twitter;
  */
 class TwitterTest extends \yii\codeception\TestCase
 {
-    public $appConfig = '@tests/codeception/config/unit.php';
+    public $appConfig = '@tests/codeception/config/functional.php';
 
 
     public function setUp(){

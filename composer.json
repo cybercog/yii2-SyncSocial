@@ -13,8 +13,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "kertz/twitteroauth": "dev-master",
-        "vladkens/vk": "0.1.7"
+        "lusitanian/oauth": "~0.3"
     },
     "require-dev": {
         "yiisoft/yii2": "2.0.0-beta",

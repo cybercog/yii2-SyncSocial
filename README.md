@@ -1,10 +1,10 @@
 yii2-SyncSocial [alpha]
-===============
+=======================
 
-[![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
 [![Travis Status](https://travis-ci.org/xifrin/yii2-SyncSocial.svg?branch=master)](https://travis-ci.org/xifrin/yii2-SyncSocial)
+[![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
 
-Extension supports these social networks:
+Extension synchronizes your Active Record model with social networks. It supports these social networks:
 
 * [facebook](https://facebook.com)
 * [twitter](https://twitter.com)
@@ -65,8 +65,6 @@ Add the following in your config:
         // ..
     ),
 ```
-
-
 
 Add the following in your controller:
 ```php

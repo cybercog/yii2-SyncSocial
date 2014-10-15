@@ -5,5 +5,6 @@ php:
 
 script:
   - "wget http://codeception.com/codecept.phar"
-  - php ./codecept.phar build
-  - php ./codecept.phar run acceptance
+
+  - php ./codecept.phar build --config="./tests/codeception.yml"
+  - php ./codecept.phar run --config="./tests/codeception.yml"

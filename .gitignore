@@ -30,6 +30,12 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
+
+codecept.phar
+composer.phar
+codeception//unit/UnitTester.php
+codeception/_output/*
 composer.phar
 composer.lock
 vendor/
+tests/_output/*

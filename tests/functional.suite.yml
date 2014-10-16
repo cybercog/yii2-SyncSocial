@@ -6,9 +6,4 @@
 
 class_name: FunctionalTester
 modules:
-    enabled:
-      - Filesystem
-      - Yii2
-    config:
-        Yii2:
-            configFile: 'codeception/config/functional.php'
+    enabled: [Filesystem, FunctionalHelper]

@@ -1,24 +1,27 @@
 <?php
+namespace components;
 
-namespace tests\codeception\unit\components;
-
-use Yii;
-use yii\base\ErrorException;
 use yii\codeception\TestCase;
 use xifrin\SyncSocial\components\Synchronizer;
 
-/**
- * @inheritdoc
- */
-class SynchonizerTest extends \yii\codeception\TestCase
+class SynchronizerTest extends TestCase
 {
-    public $appConfig = '@tests/codeception/config/unit.php';
+   /**
+    * @var \UnitTester
+    */
+    protected $tester;
 
+    protected function _before()
+    {
+    }
 
-    public function setUp(){
+    protected function _after()
+    {
 
     }
-    public function testInitialComponent()
+
+    // tests
+    public function testSimple()
     {
         $settings = [
             'social_1' => [],
@@ -34,4 +37,5 @@ class SynchonizerTest extends \yii\codeception\TestCase
         $list = $synchronizer->getServiceList();
         $this->assertTrue(array_keys($settings) === $list);
     }
+
 }

@@ -5,7 +5,7 @@ php:
 
 script:
   - "wget http://getcomposer.org/composer.phar"
-  - php ./composer.phar install
   - "wget http://codeception.com/codecept.phar"
+  - php ./composer.phar install
   - php ./codecept.phar build
   - php ./codecept.phar run

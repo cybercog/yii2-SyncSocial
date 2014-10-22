@@ -18,11 +18,27 @@ class Vkontakte extends SyncService {
     /**
      * @return mixed|void
      */
-    public function getPosts() {
+    public function getPosts($limit = 100) {
+
         $response = $this->service->request('wall.get', [
             'owner_id'   => '-55351290',
-            'from_group' => '1'
+            'from_group' => '1',
+            'limit' => $limit
         ]);
+
+        $list = [];
+        $response = json_decode($response);
+        if (!empty($response->response))
+            foreach($response->response as $item){
+                $list[] = [
+                    'service_id_author' =>$item->from_id,
+                    'service_id_post' => $item->id,
+                    'time_created' => $item->date,
+                    'content' => $item->text
+                ];
+            }
+
+        return $list;
     }
 
 

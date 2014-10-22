@@ -28,31 +28,12 @@ class Twitter extends SyncService {
     }
 
     /**
-     * @return mixed|\OAuth\Common\Token\TokenInterface|\OAuth\OAuth1\Token\TokenInterface|string
-     * @throws Exception
-     */
-    public function getAccessToken() {
-        if ( empty( $_GET['oauth_token'] ) || empty( $_GET['oauth_verifier'] ) ) {
-            throw new Exception( "Oauth token must be specified" );
-        }
-
-        $storage = $this->service->getStorage();
-        $token   = $storage->retrieveAccessToken( $this->service->service() );
-
-        return $this->service->requestAccessToken(
-            $_GET['oauth_token'],
-            $_GET['oauth_verifier'],
-            $token->getRequestTokenSecret()
-        );
-    }
-
-    /**
      * @return mixed
      */
     public function getPosts($limit = 200 ) {
 
-        $response = $this->service->request('statuses/home_timeline');
-
+        $response = $this->service->request('statuses/home_timeline.json');
+        $result = json_decode($response);
 
     }
 }

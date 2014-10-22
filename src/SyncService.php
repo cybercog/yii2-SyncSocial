@@ -2,9 +2,12 @@
 
 namespace xifrin\SyncSocial;
 
-use OAuth\Common\Exception\Exception;
 use Yii;
 use yii\base\Object;
+
+use OAuth\Common\Exception\Exception;
+use OAuth\OAuth1\Service\ServiceInterface as OAuth1Interface;
+use OAuth\OAuth2\Service\ServiceInterface as OAuth2Interface;
 
 /**
  * Class SyncService
@@ -35,21 +38,73 @@ class SyncService extends Object implements ISyncService {
      * @return mixed
      * @throws Exception
      */
-    public function getAccessToken() {
-        if ( empty( $_GET['code'] ) ) {
-            throw new Exception( "Code must be specified" );
+    public function connect() {
+        if ( $this->service instanceof OAuth1Interface ) {
+            $this->connectOAuth1();
         }
 
-        return $this->service->requestAccessToken( $_GET['code'] );
+        if ( $this->service instanceof OAuth2Interface ) {
+            $this->connectOAuth2();
+        }
+
+        return $this->isConnected();
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    protected function connectOAuth1() {
+
+        if ( empty( $_GET['oauth_token'] ) || empty( $_GET['oauth_verifier'] ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'OAuth token must be specified' ) );
+        }
+
+        $storage = $this->service->getStorage();
+        $token   = $storage->retrieveAccessToken( $this->service->service() );
+
+        $this->service->requestAccessToken(
+            $_GET['oauth_token'],
+            $_GET['oauth_verifier'],
+            $token->getRequestTokenSecret()
+        );
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    protected function connectOAuth2() {
+        if ( empty( $_GET['code'] ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'Code must be specified' ) );
+        }
+
+        $this->service->requestAccessToken( $_GET['code'] );
+    }
+
+    /**
+     * @param $parameters
+     *
+     * @return bool
+     */
+    public function hasConnectionExtraParameters($parameters){
+        return isset($parameters['user_id']);
     }
 
     /**
      * @return mixed
      */
     public function isConnected() {
-        $storage = $this->service->getStorage();
+        $storage        = $this->service->getStorage();
+        $serviceName    = $this->service->service();
+        $hasAccessToken = $storage->hasAccessToken( $serviceName );
 
-        return $storage->hasAccessToken( $this->service->service() );
+        if ( $hasAccessToken ) {
+            $token = $storage->retrieveAccessToken( $serviceName );
+            $parameters = $token->getExtraParams();
+
+            return ! $token->isExpired() && $this->hasConnectionExtraParameters($parameters);
+        }
     }
 
     /**

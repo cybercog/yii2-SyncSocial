@@ -5,14 +5,16 @@ yii2-SyncSocial [alpha]
 [![Travis Status](https://travis-ci.org/xifrin/yii2-SyncSocial.svg?branch=master)](https://travis-ci.org/xifrin/yii2-SyncSocial)
 [![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
 
-Extension synchronizes your Active Record model with social networks. It supports these social networks:
+Extension synchronizes your Active Record model with social networks.
+It helps you collect social networks' posts and publish new post to all connected social networks.
+
+Extension supports these social networks:
 
 * [facebook](https://facebook.com)
 * [twitter](https://twitter.com)
 * [vkontakte](https://vk.com)
 
 ### Configuration
-
 
 Add the following in your config:
 
@@ -68,16 +70,17 @@ Add the following in your config:
 ```
 
 Add the following in your controller:
+
 ```php
         public function actions() {
             return [
-                'connect'    => [
-                    'class' => 'xifrin\SyncSocial\actions\ConnectAction'
+                'connect' => [
+                    'class' => 'xifrin\SyncSocial\actions\ConnectAction',
                 ],
                 'disconnect' => [
-                    'class' => 'xifrin\SyncSocial\actions\DisconnectAction'
+                    'class' => 'xifrin\SyncSocial\actions\ConnectAction',
                 ],
-                'run'        => [
+                'run' => [
                     'class' => 'xifrin\SyncSocial\actions\RunAction'
                 ]
             ];

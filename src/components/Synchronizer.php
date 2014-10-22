@@ -2,15 +2,13 @@
 
 namespace xifrin\SyncSocial\components;
 
-use Yii;
 use Closure;
 use OAuth\Common\Consumer\Credentials;
-use OAuth\Common\Storage\Session;
 use OAuth\ServiceFactory;
 use yii\base\Component;
 use yii\base\ErrorException;
 
-Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
+\Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
 
 /**
  * Class Synchronizer
@@ -34,9 +32,14 @@ class Synchronizer extends Component {
     protected $factory;
 
     /**
-     * @var \OAuth\Common\Storage\Session
+     * @var \OAuth\Common\Storage\TokenStorageInterface
      */
     protected $storage;
+
+    /**
+     * @var string
+     */
+    public $storageClass = '\OAuth\Common\Storage\Session';
 
     /**
      * @var array
@@ -63,7 +66,7 @@ class Synchronizer extends Component {
      */
     public function init() {
         $this->factory = new ServiceFactory();
-        $this->storage = new Session();
+        $this->storage = new $this->storageClass();
     }
 
     /**
@@ -100,30 +103,49 @@ class Synchronizer extends Component {
     }
 
     /**
+     * Create service synchronizer wrapper class
+     *
+     * @param $serviceName
+     *
+     * @return \xifrin\SyncSocial\SyncService
+     */
+    protected function factorySynchronizer( $serviceName ) {
+
+        $class = 'xifrin\\SyncSocial\\components\\services\\' . ucfirst( $serviceName );
+        if ( class_exists( $class ) ) {
+            $settings   = isset( $this->settings[ $serviceName ] ) ? $this->settings[ $serviceName ] : [ ];
+            $connection = isset( $settings['connection'] ) ? $settings['connection'] : [ ];
+
+            $credentials = new Credentials(
+                isset( $connection['key'] ) ? $connection['key'] : null,
+                isset( $connection['secret'] ) ? $connection['secret'] : null,
+                $this->getConnectUrl( $serviceName ),
+                isset( $connection['scopes'] ) ? $connection['scopes'] : null
+            );
+
+            return new $class(
+                $this->factory->createService( $serviceName, $credentials, $this->storage )
+            );
+        }
+    }
+
+    /**
+     * Get service
+     *
      * @param $serviceName
      *
      * @return null|\OAuth\Common\Service\ServiceInterface
      */
+    /**
+     * @param $serviceName
+     *
+     * @return null|\xifrin\SyncSocial\SyncService
+     */
     public function getService( $serviceName ) {
-
         if ( ! isset( $this->services[ $serviceName ] ) ) {
-
-            $class = 'xifrin\\SyncSocial\\components\\services\\' . ucfirst( $serviceName );
-
-            if ( class_exists( $class ) ) {
-                $settings   = isset( $this->settings[ $serviceName ] ) ? $this->settings[ $serviceName ] : [ ];
-                $connection = isset( $settings['connection'] ) ? $settings['connection'] : [ ];
-
-                $credentials = new Credentials(
-                    isset( $connection['key'] ) ? $connection['key'] : null,
-                    isset( $connection['secret'] ) ? $connection['secret'] : null,
-                    $this->getConnectUrl( $serviceName ),
-                    isset( $connection['scopes'] ) ? $connection['scopes'] : null
-                );
-
-                $this->services[ $serviceName ] = new $class(
-                    $this->factory->createService( $serviceName, $credentials, $this->storage )
-                );
+            $service = $this->factorySynchronizer( $serviceName );
+            if ( ! empty( $service ) ) {
+                $this->services[ $serviceName ] = $service;
             }
         }
 
@@ -152,8 +174,7 @@ class Synchronizer extends Component {
     public function connect( $serviceName = null ) {
         $service = $this->getService( $serviceName );
         if ( ! empty( $service ) ) {
-            $service->getAccessToken();
-            return $service->isConnected();
+            return $service->connect();
         }
     }
 
@@ -179,9 +200,10 @@ class Synchronizer extends Component {
     public function disconnect( $serviceName = null ) {
         $service = $this->getService( $serviceName );
         if ( ! empty( $service ) ) {
-            $token = $service->disconnect();
-            return $service->isConnected();
+            $service->disconnect();
         }
+
+        return !$service->isConnected();
     }
 
     /**

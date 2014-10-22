@@ -20,7 +20,7 @@ class PublishController extends Controller {
         }
 
         if ( empty( $services ) ) {
-            throw new ErrorException( Yii::app( 'error', 'Service list is empty!' ) );
+            throw new ErrorException( Yii::t( '@SyncSocial', 'Service list is empty!' ) );
         }
 
         foreach ( $services as $service ) {

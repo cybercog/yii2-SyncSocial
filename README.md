@@ -6,7 +6,7 @@ yii2-SyncSocial [alpha]
 [![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
 
 Extension synchronizes your Active Record model with social networks.
-It helps you collect social networks' posts and publish new post to all connected social networks.
+It helps you collect social networks' text posts and publish new post to all connected social networks.
 
 Extension supports these social networks:
 
@@ -47,7 +47,10 @@ Add the following in your config:
                 ],
             ],
             'callbackUrl' => function ( $service ) {
-                return Yii::$app->urlManager->createAbsoluteUrl( [ 'admin/sync/connect', 'service' => $service ] );
+                return Yii::$app->urlManager->createAbsoluteUrl( [
+                    'admin/sync/connect',
+                    'service' => $service
+                ] );
             }
         ]
 
@@ -76,12 +79,18 @@ Add the following in your controller:
             return [
                 'connect' => [
                     'class' => 'xifrin\SyncSocial\actions\ConnectAction',
+                    // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
+                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
                 ],
                 'disconnect' => [
                     'class' => 'xifrin\SyncSocial\actions\ConnectAction',
+                    // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
+                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
                 ],
                 'run' => [
-                    'class' => 'xifrin\SyncSocial\actions\RunAction'
+                    'class' => 'xifrin\SyncSocial\actions\RunAction',
+                    // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
+                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
                 ]
             ];
         }

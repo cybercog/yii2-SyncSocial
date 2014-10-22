@@ -80,17 +80,17 @@ Add the following in your controller:
                 'connect' => [
                     'class' => 'xifrin\SyncSocial\actions\ConnectAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
-                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
+                    // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ],
                 'disconnect' => [
                     'class' => 'xifrin\SyncSocial\actions\ConnectAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
-                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
+                    // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ],
                 'run' => [
                     'class' => 'xifrin\SyncSocial\actions\RunAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
-                    // 'failedUrl' => 'YOUR_CUSTOM_SUCCESS_URL'
+                    // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ]
             ];
         }

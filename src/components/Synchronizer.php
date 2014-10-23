@@ -124,7 +124,8 @@ class Synchronizer extends Component {
             );
 
             return new $class(
-                $this->factory->createService( $serviceName, $credentials, $this->storage )
+                $this->factory->createService( $serviceName, $credentials, $this->storage ),
+                isset( $settings['options'] ) ? $settings['options'] : [ ]
             );
         }
     }

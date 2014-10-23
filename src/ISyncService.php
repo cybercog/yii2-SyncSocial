@@ -14,8 +14,11 @@ interface ISyncService {
     public function getPosts();
 
     /**
-     * @return mixed
+     * @param $message
+     * @param null $url
+     *
+     * @return bool|mixed
      */
-    public function publishPost();
+    public function publishPost($message, $url = null);
 
 }

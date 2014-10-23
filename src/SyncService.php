@@ -21,10 +21,17 @@ class SyncService extends Object implements ISyncService {
     protected $service;
 
     /**
-     * @param array $service
+     * @var
      */
-    public function __construct( $service ) {
+    protected $options = [];
+
+    /**
+     * @param array $service
+     * @param array $options
+     */
+    public function __construct( $service, $options = [] ) {
         $this->service = $service;
+        $this->options = $options;
     }
 
     /**
@@ -125,17 +132,21 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     * @param $message
+     * @param null $url
+     *
+     *  Example of return response:
+     *      return [
+     *          'service_id_author' => '2000',
+     *          'service_id_post'   => '1000',
+     *          'service_language'  => 'ru',
+     *          'time_created'      => strtotime( 'Thu Oct 23 07:00:00 +0000 2014' ),
+     *      ];
+     *
+     * @return bool|array
      */
-    public function getPost() {
-        return [ ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function publishPost() {
-        return [ ];
+    public function publishPost($message, $url = null) {
+        return false;
     }
 
 }

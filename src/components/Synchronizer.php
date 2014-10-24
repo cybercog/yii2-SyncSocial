@@ -5,8 +5,11 @@ namespace xifrin\SyncSocial\components;
 use Closure;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\ServiceFactory;
+use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
+use yii\base\Exception;
+use xifrin\SyncSocial\models\SyncModel;
 
 \Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
 
@@ -60,6 +63,11 @@ class Synchronizer extends Component {
      * @var string
      */
     public $model;
+
+    /**
+     * @var string
+     */
+    public $attribute = 'content';
 
     /**
      * @throws ErrorException
@@ -204,19 +212,59 @@ class Synchronizer extends Component {
             $service->disconnect();
         }
 
-        return !$service->isConnected();
+        return ! $service->isConnected();
     }
 
     /**
      * @param null $serviceName
      *
-     * @return mixed
+     * @return bool
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
      */
-    public function publishServicePost( $serviceName = null ) {
-        $service = $this->getService( $serviceName );
-        if ( ! empty( $service ) ) {
-            return $service->publishPost();
+    public function syncService( $serviceName = null ) {
+
+        if ( ! class_exists( $this->model ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'Set model class to synchronization' ) );
         }
+
+        $service = $this->getService( $serviceName );
+
+        if ( ! empty( $service ) ) {
+            $posts = $service->getPosts();
+            foreach ( $posts as $post ) {
+
+                $findOne = SyncModel::findOne( [
+                    'service_id_author' => $post['service_id_author'],
+                    'service_id_post'   => $post['service_id_post']
+                ] );
+
+                if ( ! empty( $findOne ) ) {
+                    continue;
+                }
+
+                $post_model                     = new $this->model;
+                $post_model->scenario           = 'sync';
+                $post_model->{$this->attribute} = $post['content'];
+
+                if ( $post_model->save() ) {
+
+                    $sync_model                    = new SyncModel();
+                    $sync_model->model_id          = $post_model->getPrimaryKey();
+                    $sync_model->service_name      = $service->getName();
+                    $sync_model->service_id_author = $post['service_id_author'];
+                    $sync_model->service_id_post   = $post['service_id_post'];
+                    $sync_model->time_created      = $post['time_created'];
+
+                    if ( ! $sync_model->save() ) {
+                        $post_model->delete();
+                    }
+                }
+            }
+        }
+
+        return true;
     }
+
 
 }

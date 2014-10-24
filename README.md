@@ -95,3 +95,22 @@ Add the following in your controller:
             ];
         }
 ```
+
+Add the following in your model:
+
+
+```php
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSyncSocial()
+    {
+        return $this->hasOne('xifrin\SyncSocial\models\SyncRecord', ['model_id' => 'id']);
+    }
+```
+
+Run migration to create table for sync related model:
+
+```bash
+php app/yiic.php migrate --migrationPath='@vendor/xifrin/yii2-syncsocial/src/migrations'
+```

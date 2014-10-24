@@ -46,9 +46,7 @@ class Twitter extends SyncService {
             return [
                 'service_id_author' => $response->user->id,
                 'service_id_post'   => $response->id,
-                'service_language'  => $response->lang,
-                'time_created'      => strtotime( $response->created_at ),
-
+                'time_created'      => strtotime( $response->created_at )
             ];
         }
 
@@ -68,7 +66,6 @@ class Twitter extends SyncService {
                     $list[] = [
                         'service_id_author' => $item->user->id,
                         'service_id_post'   => $item->id,
-                        'service_language'  => $item->lang,
                         'time_created'      => strtotime( $item->created_at ),
                         'content'           => $item->text
                     ];

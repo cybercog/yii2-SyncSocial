@@ -43,6 +43,13 @@ class SyncService extends Object implements ISyncService {
 
     /**
      * @return mixed
+     */
+    public function getName(){
+        return $this->service->service();
+    }
+
+    /**
+     * @return mixed
      * @throws Exception
      */
     public function connect() {
@@ -125,7 +132,16 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     *  Example of return response:
+     *      return [
+     *          [
+     *              'service_id_author' => '2000',
+     *              'service_id_post'   => '1000',
+     *              'time_created'      => 12345
+     *          ]
+     *     ];
+     *
+     * @return array
      */
     public function getPosts() {
         return [ ];

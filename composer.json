@@ -3,7 +3,7 @@
     "description": "Yii2 extension of synchronization model with social networks",
     "keywords": ["yii2", "extension", "social", "network", "sync", "synchronize"],
     "license": "Apache-2.0",
-    "version": "1.0.0",
+    "version": "1.0.0-beta",
     "type": "yii2-extension",
     "authors": [
         {
@@ -16,11 +16,11 @@
         "lusitanian/oauth": "~0.3"
     },
     "require-dev": {
-        "yiisoft/yii2": "2.0.0-beta",
-        "yiisoft/yii2-composer": "2.0.0-beta",
-        "yiisoft/yii2-bootstrap": "2.0.0-beta",
-        "yiisoft/yii2-codeception": "2.0.0-beta",
-        "yiisoft/yii2-faker": "2.0.0-beta",
+        "yiisoft/yii2": "2.0.0",
+        "yiisoft/yii2-composer": "2.0.0",
+        "yiisoft/yii2-bootstrap": "2.0.0",
+        "yiisoft/yii2-codeception": "2.0.0",
+        "yiisoft/yii2-faker": "2.0.0",
         "codeception/codeception": "2.0.*",
         "codeception/specify": "*",
         "codeception/verify": "*"

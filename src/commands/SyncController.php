@@ -9,18 +9,30 @@ use yii\console\Controller;
  * Class PublishController
  * @package xifrin\SyncSocial\commands
  */
-class PublishController extends Controller {
+class SyncController extends Controller
+{
+    /**
+     * @var string
+     */
+    public $componentName = 'synchronizer';
 
+    /**
+     * @param string $services
+     *
+     * @throws ErrorException
+     */
     public function actionIndex( $services = '*' ) {
 
+        $synchronizer =  Yii::$app->{$this->componentName};
+
         if ( $services === '*' ) {
-            $services = Yii::$app->synchronizer->getServiceList();
+            $services = $synchronizer->getServiceList();
         } else {
             $services = explode( ',', $services );
         }
 
         if ( empty( $services ) ) {
-            throw new ErrorException( Yii::t( '@SyncSocial', 'Service list is empty!' ) );
+            throw new ErrorException( Yii::app( 'error', 'Service list is empty!' ) );
         }
 
         foreach ( $services as $service ) {
@@ -29,6 +41,9 @@ class PublishController extends Controller {
     }
 
     protected function publishService( $service ) {
-        $result = Yii::$app->synchronizer->publish($service);
+
+        $synchronizer =  Yii::$app->{$this->componentName};
+
+        $result = $synchronizer->publish( $service );
     }
 }

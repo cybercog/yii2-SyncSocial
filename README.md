@@ -16,6 +16,6 @@ Extension supports these social networks:
 
 ## Documentation
 
-[Installation](docs/installation.md)
-
-[Configuration](docs/configuration.md)
+* [Installation](docs/installation.md)
+* [Configuration](docs/configuration.md)
+* [Usage](docs/usage.md)

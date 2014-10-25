@@ -10,7 +10,7 @@ Add the following in your config:
 
         // add Synchronizer component
         'synchronizer' => [
-            'class'       => 'xifrin\SyncSocial\components\Synchronizer',
+            'class'       => '\xifrin\SyncSocial\components\Synchronizer',
             'model'       => '\app\models\Post',
             // 'attribute'   => 'content',
             'services'    => [

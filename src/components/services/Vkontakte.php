@@ -5,35 +5,21 @@ namespace xifrin\SyncSocial\components\services;
 use xifrin\SyncSocial\SyncService;
 
 /**
- * Class Twitter
+ * Class Vkontakte
  * @package xifrin\SyncSocial\components\services
  */
 class Vkontakte extends SyncService {
+
+    /*
+     * VKontakte not support clear post method, only via manual saved token
+     * or when application is allowed to direction authorization
+     */
+    const SUPPORT_POST = false;
 
     /**
      * @var \OAuth\OAuth2\Service\Vontakte
      */
     protected $service;
-
-    /**
-     * @return mixed
-     */
-    public function publishPost( $message, $url = null ) {
-
-        $response = $this->service->request( 'wall.post', 'POST', [
-            'owner_id'   => isset( $this->options['owner_id'] ) ? $this->options['owner_id'] : null,
-            'from_group' => isset( $this->options['from_group'] ) ? $this->options['from_group'] : null,
-            'message'    => $message
-        ] );
-
-        if ( isset( $response->post_id ) ) {
-            return [
-                'service_id_author' => $response->user->id,
-                'service_id_post'   => $response->post_id,
-                'time_created'      => time(),
-            ];
-        }
-    }
 
     /**
      * @return mixed|void

@@ -29,14 +29,15 @@ class Twitter extends SyncService {
 
 
     /**
+     * @TODO: warning maxixum 140 length for message
+     * @TODO: check if similar message was posted
+     *
      * @param $message
      * @param null $url
      *
      * @return bool|mixed
      */
     public function publishPost( $message, $url = null ) {
-
-        // @TODO: warning maxixum 140 length for message
 
         $response = json_decode( $this->service->request( 'statuses/update.json', 'POST', [
             'status' => $message

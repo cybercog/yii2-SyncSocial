@@ -1,41 +1,26 @@
 <?php
-namespace components;
+namespace unit\components;
 
 use yii\codeception\TestCase;
 use xifrin\SyncSocial\components\Synchronizer;
 
-class SynchronizerTest extends TestCase
-{
-   /**
-    * @var \UnitTester
-    */
-    protected $tester;
+/**
+ * Class SynchronizerTest
+ * @package unit\components
+ */
+class SynchronizerTest extends TestCase {
 
-    protected function _before()
-    {
-    }
+    public function testEmptyConfiguration() {
 
-    protected function _after()
-    {
+        $this->setExpectedException( 'yii\base\Exception', 'Set model class to synchronization' );
+        new Synchronizer();
 
-    }
+        $this->setExpectedException( 'yii\base\Exception', 'Set model attribute to synchronization' );
+        new Synchronizer( [
+            'model' => '\fixtures\models\Record'
+        ] );
 
-    // tests
-    public function testSimple()
-    {
-        $settings = [
-            'social_1' => [],
-            'social_2' => [],
-            'social_3' => [],
-            'social_4' => [],
-        ];
-
-        $synchronizer = new Synchronizer( array(
-            'settings' => $settings
-        ) );
-
-        $list = $synchronizer->getServiceList();
-        $this->assertTrue(array_keys($settings) === $list);
+        $this->assertTrue( true );
     }
 
 }

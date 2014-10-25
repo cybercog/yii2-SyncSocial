@@ -60,7 +60,12 @@ class Synchronizer extends Component {
     public $disconnectUrl;
 
     /**
-     * @var string
+     * @var Closure
+     */
+    public $syncUrl;
+
+    /**
+     * @var \yii\db\ActiveRecord
      */
     public $model;
 
@@ -70,9 +75,25 @@ class Synchronizer extends Component {
     public $attribute = 'content';
 
     /**
+     * @var Closure
+     */
+    public $absolutePostUrl = null;
+
+    /**
      * @throws ErrorException
      */
     public function init() {
+
+        $className = $this->model;
+
+        if ( ! class_exists( $className ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'Set model class to synchronization' ) );
+        }
+
+        if ( ! in_array( $this->attribute, $className::getTableSchema()->columnNames ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'Set model attribute to synchronization' ) );
+        }
+
         $this->factory = new ServiceFactory();
         $this->storage = new $this->storageClass();
     }
@@ -90,8 +111,7 @@ class Synchronizer extends Component {
      * @return mixed
      */
     public function getConnectUrl( $serviceName ) {
-        $callbackUrl = null;
-        $function    = $this->connectUrl;
+        $function = $this->connectUrl;
         if ( is_callable( $function ) && ( $function instanceof Closure ) ) {
             return $function( $serviceName );
         }
@@ -103,8 +123,19 @@ class Synchronizer extends Component {
      * @return mixed
      */
     public function getDisconnectUrl( $serviceName ) {
-        $callbackUrl = null;
-        $function    = $this->disconnectUrl;
+        $function = $this->disconnectUrl;
+        if ( is_callable( $function ) && ( $function instanceof Closure ) ) {
+            return $function( $serviceName );
+        }
+    }
+
+    /**
+     * @param $serviceName
+     *
+     * @return mixed
+     */
+    public function getSyncUrl( $serviceName ) {
+        $function = $this->syncUrl;
         if ( is_callable( $function ) && ( $function instanceof Closure ) ) {
             return $function( $serviceName );
         }
@@ -224,10 +255,6 @@ class Synchronizer extends Component {
      */
     public function syncService( $serviceName = null ) {
 
-        if ( ! class_exists( $this->model ) ) {
-            throw new Exception( Yii::t( 'SyncSocial', 'Set model class to synchronization' ) );
-        }
-
         $service = $this->getService( $serviceName );
 
         if ( ! empty( $service ) ) {
@@ -249,7 +276,8 @@ class Synchronizer extends Component {
 
                 if ( $post_model->save() ) {
 
-                    $sync_model                    = new SyncModel();
+                    $sync_model = new SyncModel();
+
                     $sync_model->model_id          = $post_model->getPrimaryKey();
                     $sync_model->service_name      = $service->getName();
                     $sync_model->service_id_author = $post['service_id_author'];
@@ -266,5 +294,44 @@ class Synchronizer extends Component {
         return true;
     }
 
+    /**
+     * @param $post
+     *
+     * @return bool
+     */
+    public function syncPostAllService( $post ) {
+
+        $serviceNames = $this->getServiceList();
+        $result       = [];
+
+        foreach ( $serviceNames as $serviceName ) {
+            $result[$serviceName] = $this->syncPost( $serviceName, $post );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param null $serviceName
+     * @param \yii\db\ActiveRecord $post
+     *
+     * @return bool
+     */
+    public function syncPost( $serviceName = null, $post ) {
+
+        $service = $this->getService( $serviceName );
+
+        if ( $service->isConnected() ) {
+            $message  = $post->{$this->attribute};
+            $function = $this->absolutePostUrl;
+
+            $url = null;
+            if ( is_callable( $function ) && ( $function instanceof Closure ) ) {
+                $url = $function( $serviceName, $post->getPrimaryKey() );
+            }
+
+            return $service->publishPost( $message, $url );
+        }
+    }
 
 }

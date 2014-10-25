@@ -162,7 +162,7 @@ class SyncService extends Object implements ISyncService {
      * @return bool|array
      */
     public function publishPost($message, $url = null) {
-        return false;
+        return true;
     }
 
 }

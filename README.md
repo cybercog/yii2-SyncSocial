@@ -14,5 +14,7 @@ Extension supports these social networks:
 * [twitter](https://twitter.com)
 * [vkontakte](https://vk.com) (get only)
 
-{{ md docs/installation.md }}
-{{ md docs/configuration.md }}
+## Documentation
+
+[Installation](docs/installation.md)
+[Configuration](docs/configuration.md)

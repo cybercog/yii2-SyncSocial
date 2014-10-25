@@ -8,7 +8,7 @@ use Yii;
  * Class RunAction
  * @package xifrin\SyncSocial\actions
  */
-class RunAction extends ActionSynchronize {
+class SyncAction extends ActionSynchronize {
 
     /**
      * @param $service

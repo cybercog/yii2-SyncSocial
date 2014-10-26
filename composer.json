@@ -1,7 +1,7 @@
 {
     "name": "xifrin/yii2-syncsocial",
     "description": "Yii2 extension of synchronization model with social networks",
-    "keywords": ["yii2", "extension", "social", "network", "sync", "synchronize", "vkontakte", "facebook", "twitter"],
+    "keywords": ["yii2", "extension", "social", "network", "sync", "synchronize"],
     "license": "Apache-2.0",
     "version": "1.0.0-beta",
     "type": "yii2-extension",

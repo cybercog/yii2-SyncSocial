@@ -6,7 +6,7 @@ php:
 script:
   - "wget http://getcomposer.org/composer.phar"
   - "wget http://codeception.com/codecept.phar"
-  - rm composer.lock
-  - php ./composer.phar install
+  - php ./composer.phar require "fxp/composer-asset-plugin:1.0.0-beta2"
+  - php ./composer.phar install --prefer-dist
   - php ./codecept.phar build
   - php ./codecept.phar run

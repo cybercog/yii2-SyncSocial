@@ -13,7 +13,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "lusitanian/oauth": "~0.3"
+        "lusitanian/oauth": "~0.3",
+        "fxp/composer-asset-plugin": "1.0.0-beta2"
     },
     "require-dev": {
         "yiisoft/yii2": "2.0.0",

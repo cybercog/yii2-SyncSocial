@@ -2,7 +2,6 @@
 
 namespace xifrin\SyncSocial\components\services;
 
-use OAuth\Common\Exception\Exception;
 use xifrin\SyncSocial\SyncService;
 
 /**
@@ -17,7 +16,7 @@ class Twitter extends SyncService {
     protected $service;
 
     /**
-     * @return mixed|\OAuth\Common\Http\Uri\UriInterface
+     * @return \OAuth\Common\Http\Uri\UriInterface
      */
     public function getAuthorizationUri() {
         $token = $this->service->requestRequestToken();

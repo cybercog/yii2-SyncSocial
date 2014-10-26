@@ -4,7 +4,6 @@ namespace xifrin\SyncSocial;
 
 use Yii;
 use yii\base\Object;
-
 use OAuth\Common\Exception\Exception;
 use OAuth\OAuth1\Service\ServiceInterface as OAuth1Interface;
 use OAuth\OAuth2\Service\ServiceInterface as OAuth2Interface;
@@ -35,7 +34,7 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed|\OAuth\Common\Http\Uri\UriInterface
+     * @return \OAuth\Common\Http\Uri\UriInterface
      */
     public function getAuthorizationUri() {
         return $this->service->getAuthorizationUri();
@@ -49,7 +48,7 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     * @return boolean|null
      * @throws Exception
      */
     public function connect() {
@@ -106,7 +105,7 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     * @return boolean|null
      */
     public function isConnected() {
         $storage        = $this->service->getStorage();
@@ -159,7 +158,7 @@ class SyncService extends Object implements ISyncService {
      *          'time_created'      => strtotime( 'Thu Oct 23 07:00:00 +0000 2014' ),
      *      ];
      *
-     * @return bool|array
+     * @return boolean
      */
     public function publishPost($message, $url = null) {
         return true;

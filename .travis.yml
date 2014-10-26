@@ -8,6 +8,7 @@ script:
   - "wget http://getcomposer.org/composer.phar"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer self-update && composer --version
+  - composer global require "fxp/composer-asset-plugin:1.0.0-beta3"
   - composer install
 # codecept:
   - "wget http://codeception.com/codecept.phar"

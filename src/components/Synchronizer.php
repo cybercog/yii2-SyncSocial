@@ -108,7 +108,7 @@ class Synchronizer extends Component {
     /**
      * @param $serviceName
      *
-     * @return mixed
+     * @return string
      */
     public function getConnectUrl( $serviceName ) {
         $function = $this->connectUrl;
@@ -209,7 +209,7 @@ class Synchronizer extends Component {
     /**
      * @param null $serviceName
      *
-     * @return mixed
+     * @return boolean|null
      */
     public function connect( $serviceName = null ) {
         $service = $this->getService( $serviceName );
@@ -223,7 +223,7 @@ class Synchronizer extends Component {
      *
      * @param null $serviceName
      *
-     * @return bool
+     * @return boolean|null
      */
     public function isConnected( $serviceName = null ) {
         $service = $this->getService( $serviceName );
@@ -295,7 +295,7 @@ class Synchronizer extends Component {
     }
 
     /**
-     * @param $post
+     * @param \yii\db\ActiveRecord $post
      *
      * @return bool
      */

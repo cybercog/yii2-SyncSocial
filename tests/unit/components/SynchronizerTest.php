@@ -10,6 +10,8 @@ use xifrin\SyncSocial\components\Synchronizer;
  */
 class SynchronizerTest extends TestCase {
 
+    public $appConfig = '@tests/functional/_config.php';
+
     public function testEmptyConfiguration() {
 
         $this->setExpectedException( 'yii\base\Exception', 'Set model class to synchronization' );

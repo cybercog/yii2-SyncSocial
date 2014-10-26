@@ -13,6 +13,8 @@ use yii\codeception\TestCase;
  */
 class SynchronizerTest extends TestCase {
 
+    public $appConfig = '@tests/functional/_config.php';
+
     /**
      * @var \xifrin\SyncSocial\components\Synchronizer
      */

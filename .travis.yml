@@ -6,6 +6,7 @@ php:
 script:
   - "wget http://getcomposer.org/composer.phar"
   - "wget http://codeception.com/codecept.phar"
+  - rm composer.lock
   - php ./composer.phar install
   - php ./codecept.phar build
   - php ./codecept.phar run

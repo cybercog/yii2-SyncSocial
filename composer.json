@@ -24,8 +24,7 @@
         "yiisoft/yii2-faker": "2.0.0",
         "codeception/codeception": "2.0.7",
         "codeception/specify": "0.4.1",
-        "codeception/verify": "0.2.7",
-        "sp/bower-bundle": "0.11"
+        "codeception/verify": "0.2.7"
     },
     "autoload": {
         "psr-4": {

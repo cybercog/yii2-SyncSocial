@@ -84,9 +84,6 @@ class Synchronizer extends Component {
      */
     public function init() {
 
-        /**
-         * @var $className \yii\db\ActiveRecord
-         */
         $className = $this->model;
 
         if ( ! class_exists( $className ) ) {
@@ -149,26 +146,27 @@ class Synchronizer extends Component {
      *
      * @param $serviceName
      *
-     * @return \xifrin\SyncSocial\SyncService
+     * @return \xifrin\SyncSocial\SyncService|null
      */
     protected function factorySynchronizer( $serviceName ) {
 
         $class = 'xifrin\\SyncSocial\\components\\services\\' . ucfirst( $serviceName );
         if ( class_exists( $class ) ) {
+
             $settings   = isset( $this->settings[ $serviceName ] ) ? $this->settings[ $serviceName ] : [ ];
             $connection = isset( $settings['connection'] ) ? $settings['connection'] : [ ];
 
-            $credentials = new Credentials(
-                isset( $connection['key'] ) ? $connection['key'] : null,
-                isset( $connection['secret'] ) ? $connection['secret'] : null,
-                $this->getConnectUrl( $serviceName ),
-                isset( $connection['scopes'] ) ? $connection['scopes'] : null
-            );
+            $key    = isset( $connection['key'] ) ? $connection['key'] : null;
+            $secret = isset( $connection['secret'] ) ? $connection['secret'] : null;
+            $url    = $this->getConnectUrl( $serviceName );
+            $scopes = isset( $connection['scopes'] ) ? $connection['scopes'] : null;
 
-            return new $class(
-                $this->factory->createService( $serviceName, $credentials, $this->storage ),
-                isset( $settings['options'] ) ? $settings['options'] : [ ]
-            );
+            $credentials = new Credentials( $key, $secret, $url, $scopes );
+
+            $service = $this->factory->createService( $serviceName, $credentials, $this->storage );
+            $options = isset( $settings['options'] ) ? $settings['options'] : [ ];
+
+            return new $class( $service, $options );
         }
     }
 
@@ -305,10 +303,10 @@ class Synchronizer extends Component {
     public function syncPostAllService( $post ) {
 
         $serviceNames = $this->getServiceList();
-        $result       = [];
+        $result       = [ ];
 
         foreach ( $serviceNames as $serviceName ) {
-            $result[$serviceName] = $this->syncPost( $serviceName, $post );
+            $result[ $serviceName ] = $this->syncPost( $serviceName, $post );
         }
 
         return $result;

@@ -84,6 +84,9 @@ class Synchronizer extends Component {
      */
     public function init() {
 
+        /**
+         * @var $className \yii\db\ActiveRecord
+         */
         $className = $this->model;
 
         if ( ! class_exists( $className ) ) {

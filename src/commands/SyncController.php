@@ -2,6 +2,7 @@
 
 namespace xifrin\SyncSocial\commands;
 
+use Yii;
 use yii\base\ErrorException;
 use yii\console\Controller;
 
@@ -32,7 +33,7 @@ class SyncController extends Controller
         }
 
         if ( empty( $services ) ) {
-            throw new ErrorException( Yii::app( 'error', 'Service list is empty!' ) );
+            throw new ErrorException( Yii::t( 'error', 'Service list is empty!' ) );
         }
 
         foreach ( $services as $service ) {

@@ -33,10 +33,10 @@ $RECYCLE.BIN/
 
 codecept.phar
 composer.phar
+tests/_data/*_snapshot
+tests/_output/*
 tests/functional/FunctionalTester.php
 tests/unit/UnitTester.php
-tests/_output/*
 composer.phar
 composer.lock
 vendor/
-tests/_output/*

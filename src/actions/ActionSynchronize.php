@@ -59,6 +59,22 @@ class ActionSynchronize extends Action
     }
 
     /**
+     * @param $successMessage
+     * @param $failedMessage
+     */
+    protected function redirectWithMessages($flag, $successMessage, $failedMessage){
+
+        if ( $flag ) {
+            Yii::$app->session->setFlash( 'success', $successMessage );
+            $this->controller->redirect( $this->successUrl );
+        } else {
+            Yii::$app->session->setFlash( 'warning', $failedMessage );
+            $this->controller->redirect( $this->failedUrl );
+        }
+
+    }
+
+    /**
      * @return bool
      * @throws Exception
      */

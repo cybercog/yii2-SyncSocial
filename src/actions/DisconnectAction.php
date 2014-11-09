@@ -15,12 +15,13 @@ class DisconnectAction extends ActionSynchronize {
      */
     public function run( $service ) {
 
-        if ( $this->synchronizer->disconnect( $service ) ) {
-            Yii::$app->session->setFlash( 'success', Yii::t( 'SyncSocial', 'Service was successfully disconnected' ) );
-            $this->controller->redirect( $this->successUrl );
-        } else {
-            Yii::$app->session->setFlash( 'warning', Yii::t( 'SyncSocial', 'There is error in disconnection' ) );
-            $this->controller->redirect( $this->failedUrl );
-        }
+        $flagDisconnect = $this->synchronizer->disconnect( $service );
+
+        $this->redirectWithMessages(
+            $flagDisconnect,
+            Yii::t( 'SyncSocial', 'Service was successfully disconnected' ),
+            Yii::t( 'SyncSocial', 'There is error in disconnection' )
+        );
     }
+
 }

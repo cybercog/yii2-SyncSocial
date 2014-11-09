@@ -6,9 +6,6 @@ php:
 before_script:
   - mysql -e 'create database tests;'
 
-after_success:
-  - coveralls
-
 script:
 # composer:
   - "wget http://getcomposer.org/composer.phar"

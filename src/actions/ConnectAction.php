@@ -19,8 +19,8 @@ class ConnectAction extends ActionSynchronize {
 
         $this->redirectWithMessages(
             $flagConnect,
-            Yii::t('SyncSocial', 'Service was successfully connected'),
-            Yii::t('SyncSocial', 'Service could not be connected')
+            Yii::t( 'SyncSocial', 'Service was successfully connected' ),
+            Yii::t( 'SyncSocial', 'Service could not be connected' )
         );
 
     }

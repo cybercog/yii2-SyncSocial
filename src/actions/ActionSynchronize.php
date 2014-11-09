@@ -7,11 +7,10 @@ use yii\base\Action;
 use yii\base\Exception;
 
 /**
-* Class RunAction
-* @package xifrin\SyncSocial\actions
-*/
-class ActionSynchronize extends Action
-{
+ * Class RunAction
+ * @package xifrin\SyncSocial\actions
+ */
+class ActionSynchronize extends Action {
     /**
      * @var
      */
@@ -62,8 +61,7 @@ class ActionSynchronize extends Action
      * @param $successMessage
      * @param $failedMessage
      */
-    protected function redirectWithMessages($flag, $successMessage, $failedMessage){
-
+    protected function redirectWithMessages( $flag, $successMessage, $failedMessage ) {
         if ( $flag ) {
             Yii::$app->session->setFlash( 'success', $successMessage );
             $this->controller->redirect( $this->successUrl );
@@ -71,23 +69,23 @@ class ActionSynchronize extends Action
             Yii::$app->session->setFlash( 'warning', $failedMessage );
             $this->controller->redirect( $this->failedUrl );
         }
-
     }
 
     /**
      * @return bool
      * @throws Exception
      */
-    protected function beforeRun(){
+    protected function beforeRun() {
 
         $this->initialRedirectUrl();
 
         $components = Yii::$app->getComponents();
 
-        if (!isset($components[$this->componentName]))
-            throw new Exception(Yii::t('SyncSocial', 'Component is not configured!'));
-        else
+        if ( ! isset( $components[ $this->componentName ] ) ) {
+            throw new Exception( Yii::t( 'SyncSocial', 'Component is not configured!' ) );
+        } else {
             $this->synchronizer = Yii::$app->{$this->componentName};
+        }
 
         return parent::beforeRun();
     }

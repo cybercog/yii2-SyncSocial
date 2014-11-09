@@ -4,7 +4,6 @@ namespace xifrin\SyncSocial\components;
 
 use Closure;
 use OAuth\Common\Consumer\Credentials;
-use OAuth\ServiceFactory;
 use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
@@ -43,6 +42,11 @@ class Synchronizer extends Component {
      * @var string
      */
     public $storageClass = '\OAuth\Common\Storage\Session';
+
+    /**
+     * @var string
+     */
+    public $serviceFactoryClass = '\OAuth\ServiceFactory';
 
     /**
      * @var array
@@ -94,7 +98,7 @@ class Synchronizer extends Component {
             throw new Exception( Yii::t( 'SyncSocial', 'Set model attribute to synchronization' ) );
         }
 
-        $this->factory = new ServiceFactory();
+        $this->factory = new $this->serviceFactoryClass();
         $this->storage = new $this->storageClass();
     }
 
@@ -260,8 +264,8 @@ class Synchronizer extends Component {
 
         if ( ! empty( $service ) ) {
             $posts = $service->getPosts();
-            foreach ( $posts as $post ) {
 
+            foreach ( $posts as $post ) {
                 $findOne = SyncModel::findOne( [
                     'service_id_author' => $post['service_id_author'],
                     'service_id_post'   => $post['service_id_post']

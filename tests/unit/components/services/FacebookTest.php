@@ -98,10 +98,9 @@ class FacebookTest extends TestCase {
     protected function buildFacebookServiceWithResponseEmpty() {
 
         $credentials = new Credentials( 'fakeKey', 'fakeSecret', 'fakeURL' );
-        $storage     = new Session();
 
         $factory = new ServiceFactory;
-        $service = $factory->createService( 'Facebook', $credentials, $storage );
+        $service = $factory->createService( 'Facebook', $credentials, $this->storage );
 
         $mock = Mockery::mock( $service );
         $mock->shouldReceive( 'request' )

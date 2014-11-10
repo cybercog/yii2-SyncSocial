@@ -57,7 +57,7 @@ class Facebook extends SyncService {
                     $list[] = [
                         'service_id_author' => isset( $item['from']['id'] ) ? $item['from']['id'] : null,
                         'service_id_post'   => $item['id'],
-                        'time_created'      => isset( $item['created_time'] ) ? strtotime( $item['created_time'] ) : time(),
+                        'time_created'      => isset( $item['created_time'] ) ? strtotime( $item['created_time'] ) : null,
                         'content'           => $item['message']
                     ];
                 }

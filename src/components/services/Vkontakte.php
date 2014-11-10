@@ -37,16 +37,16 @@ class Vkontakte extends SyncService {
         $response = $this->service->request( 'wall.get' . ( ! empty( $query ) ? "?" . $query : null ), 'GET' );
 
         $list     = [ ];
-        $response = json_decode( $response );
+        $response = json_decode( $response, true );
 
-        if ( ! empty( $response->response ) ) {
-            foreach ( $response->response as $item ) {
-                if ( is_object( $item ) ) {
+        if ( ! empty( $response['response'] ) ) {
+            foreach ( $response['response'] as $item ) {
+                if ( ! empty( $item['id'] ) && ! empty( $item['text'] ) ) {
                     $list[] = [
-                        'service_id_author' => $item->from_id,
-                        'service_id_post'   => $item->id,
-                        'time_created'      => $item->date,
-                        'content'           => $item->text
+                        'service_id_author' => isset( $item['from_id'] ) ? $item['from_id'] : null,
+                        'service_id_post'   => $item['id'],
+                        'time_created'      => isset( $item['date'] ) ? $item['date'] : null,
+                        'content'           => $item['text']
                     ];
                 }
             }

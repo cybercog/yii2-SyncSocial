@@ -2,7 +2,6 @@
 
 namespace tests\unit\components\services;
 
-use Codeception\Util\Debug;
 use OAuth\OAuth2\Token\StdOAuth2Token;
 use xifrin\SyncSocial\components\services\Twitter;
 use Yii;
@@ -13,10 +12,25 @@ use \OAuth\Common\Consumer\Credentials;
 use \OAuth\Common\Storage\Session;
 use \OAuth\ServiceFactory;
 
+
 /**
- * Class SynchronizerTest
+ * Class MockToken
  *
- * @package tests\unit\components
+ * @package tests\unit\components\services
+ */
+class MockToken {
+    /**
+     * @return string
+     */
+    public function getRequestToken() {
+        return 'requestTokenValue';
+    }
+}
+
+/**
+ * Class TwitterTest
+ *
+ * @package tests\unit\components\services
  */
 class TwitterTest extends TestCase {
 
@@ -92,13 +106,12 @@ class TwitterTest extends TestCase {
                      $additionalURL[] = $key . "=" . urldecode( $value );
                  }
 
-                 return 'http://fakehost.host/api/' . (! empty($additionalURL ) ? '?' . implode( "&", $additionalURL ) : null );
+                 return 'http://fakehost.host/api/' . ( ! empty( $additionalURL ) ? '?' . implode( "&", $additionalURL ) : null );
              } );
-
 
         $mock->shouldReceive( 'requestRequestToken' )
              ->andReturnUsing( function () {
-                 return 'requestTokenValue';
+                 return new MockToken;
              } );
 
         return $mock;
@@ -181,7 +194,7 @@ class TwitterTest extends TestCase {
 
         $service = $this->buildTwitterServiceWithResponseSuccess();
         $sync    = new Twitter( $service );
-        $this->assertTrue(  $sync->getAuthorizationUri() == "http://fakehost.host/api/?oauth_token=test" );
+        $this->assertTrue( $sync->getAuthorizationUri() == "http://fakehost.host/api/?oauth_token=requestTokenValue" );
 
     }
 

@@ -22,7 +22,7 @@ class Twitter extends SyncService {
         $token = $this->service->requestRequestToken();
 
         return $this->service->getAuthorizationUri( array(
-            'oauth_token' => 'test'
+            'oauth_token' => $token->getRequestToken()
         ) );
     }
 

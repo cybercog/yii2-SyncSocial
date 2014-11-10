@@ -2,7 +2,6 @@
 
 namespace tests\unit\components\services;
 
-use Codeception\Util\Debug;
 use OAuth\OAuth2\Token\StdOAuth2Token;
 use xifrin\SyncSocial\components\services\Facebook;
 use Yii;

@@ -1,4 +1,5 @@
 <?php
+
 namespace tests\unit\components;
 
 use Codeception\Util\Debug;
@@ -20,7 +21,7 @@ require_once dirname( __DIR__ ) . '/models/TestOAuth2Service.php';
 /**
  * Class SynchronizerTest
  *
- * @package tests\functional\components
+ * @package tests\unit\components
  */
 class SyncServiceTest extends TestCase {
 
@@ -53,6 +54,7 @@ class SyncServiceTest extends TestCase {
 
         return $service;
     }
+
 
     public function testSyncServiceGetName() {
 
@@ -89,7 +91,7 @@ class SyncServiceTest extends TestCase {
 
     }
 
-    public function testNoConnectionAouth2() {
+    public function testNoConnectionOAuth2() {
 
         $this->setExpectedException( 'yii\base\Exception', 'Code must be specified' );
         $service = $this->buildOAuth2Service();
@@ -100,7 +102,7 @@ class SyncServiceTest extends TestCase {
     }
 
 
-    public function testNoConnectionAouth1() {
+    public function testNoConnectionOAuth1() {
 
         $this->setExpectedException( 'yii\base\Exception', 'OAuth token must be specified' );
         $service = $this->buildOAuth1Service();
@@ -117,7 +119,7 @@ class SyncServiceTest extends TestCase {
         $sync    = new SyncService( $service );
 
         $this->assertTrue( is_array( $sync->getPosts() ) );
-        $this->assertTrue( is_bool( $sync->publishPost('message') ) );
+        $this->assertTrue( is_array( $sync->publishPost('message') ) );
     }
 
 

@@ -1,7 +1,6 @@
 <?php
 namespace tests\functional\components;
 
-use Codeception\Module\FunctionalHelper;
 use Codeception\Util\Debug;
 use Yii;
 use yii\codeception\TestCase;

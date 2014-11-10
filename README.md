@@ -5,7 +5,7 @@ yii2-SyncSocial [alpha]
 [![Travis Status](https://travis-ci.org/xifrin/yii2-SyncSocial.svg?branch=master)](https://travis-ci.org/xifrin/yii2-SyncSocial)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/xifrin/yii2-SyncSocial/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/xifrin/yii2-SyncSocial/?branch=master)
 [![Code Climate](https://codeclimate.com/github/xifrin/yii2-SyncSocial/badges/gpa.svg)](https://codeclimate.com/github/xifrin/yii2-SyncSocial)
-[![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png)](https://coveralls.io/r/xifrin/yii2-SyncSocial)
+[![Coverage Status](https://coveralls.io/repos/xifrin/yii2-SyncSocial/badge.png?branch=master)](https://coveralls.io/r/xifrin/yii2-SyncSocial?branch=master)
 
 Extension synchronizes your Active Record model with social networks.
 It helps you collect social networks' text posts and publish new post to all connected social networks.

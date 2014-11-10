@@ -84,12 +84,21 @@ class TwitterTest extends TestCase {
 
              } );
 
+        $mock->shouldReceive( 'getAuthorizationUri' )
+             ->andReturnUsing( function ( array $additionalParameters = array() ) {
+
+                 $additionalURL = [ ];
+                 foreach ( $additionalParameters as $key => $value ) {
+                     $additionalURL[] = $key . "=" . urldecode( $value );
+                 }
+
+                 return 'http://fakehost.host/api/' . (! empty($additionalURL ) ? '?' . implode( "&", $additionalURL ) : null );
+             } );
+
 
         $mock->shouldReceive( 'requestRequestToken' )
              ->andReturnUsing( function () {
-                 return $this->getMock('OAuth\OAuth1\Token\StdOAuth1Token', [
-                     'getRequestToken' => 'requestTokenValue'
-                 ]);
+                 return 'requestTokenValue';
              } );
 
         return $mock;
@@ -102,10 +111,9 @@ class TwitterTest extends TestCase {
     protected function buildTwitterServiceWithResponseEmpty() {
 
         $credentials = new Credentials( 'fakeKey', 'fakeSecret', 'fakeURL' );
-        $storage     = new Session();
 
         $factory = new ServiceFactory;
-        $service = $factory->createService( 'Twitter', $credentials, $storage );
+        $service = $factory->createService( 'Twitter', $credentials, $this->storage );
 
         $mock = Mockery::mock( $service );
         $mock->shouldReceive( 'request' )
@@ -170,10 +178,11 @@ class TwitterTest extends TestCase {
 
 
     public function testGetAuthorizationUri() {
+
         $service = $this->buildTwitterServiceWithResponseSuccess();
         $sync    = new Twitter( $service );
+        $this->assertTrue(  $sync->getAuthorizationUri() == "http://fakehost.host/api/?oauth_token=test" );
 
-        $this->assertTrue( true );
     }
 
 }

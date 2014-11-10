@@ -1,5 +1,5 @@
 <?php
-namespace tests\functional\components;
+namespace tests\unit\components;
 
 use Codeception\Util\Debug;
 use Yii;
@@ -24,7 +24,7 @@ require_once dirname( __DIR__ ) . '/models/TestOAuth2Service.php';
  */
 class SyncServiceTest extends TestCase {
 
-    public $appConfig = '@tests/functional/_config.php';
+    public $appConfig = '@tests/unit/_config.php';
 
     /**
      * @return \OAuth\Common\Service\ServiceInterface
@@ -57,38 +57,68 @@ class SyncServiceTest extends TestCase {
     public function testSyncServiceGetName() {
 
         $service = $this->buildOAuth2Service();
-        $sync  = new SyncService($service);
+        $sync    = new SyncService( $service );
         $this->assertTrue( $service->service() === $sync->getName() );
 
         $service = $this->buildOAuth1Service();
-        $sync  = new SyncService($service);
+        $sync    = new SyncService( $service );
         $this->assertTrue( $service->service() === $sync->getName() );
 
     }
 
 
-    public function testGetAuthorizationUri(){
+    public function testGetAuthorizationUri() {
 
         $service = $this->buildOAuth2Service();
-        $sync  = new SyncService($service);
+        $sync    = new SyncService( $service );
         $this->assertTrue( $service->getAuthorizationUri() == $sync->getAuthorizationUri() );
 
         $service = $this->buildOAuth1Service();
-        $sync  = new SyncService($service);
+        $sync    = new SyncService( $service );
         $this->assertTrue( $service->getAuthorizationUri() == $sync->getAuthorizationUri() );
     }
 
 
-    public function
+    public function testHasConnectionExtraParameters() {
 
-    public function testConnect(){
 
         $service = $this->buildOAuth2Service();
-        $sync  = new SyncService($service);
+        $sync    = new SyncService( $service );
+        $this->assertTrue( $sync->hasConnectionExtraParameters( [ ] ) == false );
+        $this->assertTrue( $sync->hasConnectionExtraParameters( [ 'user_id' => 1 ] ) == true );
+
+    }
+
+    public function testNoConnectionAouth2() {
+
+        $this->setExpectedException( 'yii\base\Exception', 'Code must be specified' );
+        $service = $this->buildOAuth2Service();
+        $sync    = new SyncService( $service );
         $sync->connect();
 
-        $sync
-
+        $this->assertTrue( true );
     }
+
+
+    public function testNoConnectionAouth1() {
+
+        $this->setExpectedException( 'yii\base\Exception', 'OAuth token must be specified' );
+        $service = $this->buildOAuth1Service();
+        $sync    = new SyncService( $service );
+        $sync->connect();
+
+        $this->assertTrue( true );
+    }
+
+
+    public function testReturnType() {
+
+        $service = $this->buildOAuth1Service();
+        $sync    = new SyncService( $service );
+
+        $this->assertTrue( is_array( $sync->getPosts() ) );
+        $this->assertTrue( is_bool( $sync->publishPost('message') ) );
+    }
+
 
 }

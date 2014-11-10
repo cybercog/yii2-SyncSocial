@@ -40,13 +40,13 @@ class Twitter extends SyncService {
 
         $response = json_decode( $this->service->request( 'statuses/update.json', 'POST', [
             'status' => $message
-        ] ) );
+        ] ), true );
 
-        if ( isset( $response->id ) ) {
+        if ( isset( $response['id'] ) ) {
             return [
-                'service_id_author' => $response->user->id,
-                'service_id_post'   => $response->id,
-                'time_created'      => strtotime( $response->created_at )
+                'service_id_author' => isset($response['user']['id']) ? $response['user']['id'] : null,
+                'service_id_post'   => $response['id'],
+                'time_created'      => isset($response['created_at']) ? strtotime( $response['created_at'] ) : time()
             ];
         } else {
             return [ ];
@@ -59,17 +59,17 @@ class Twitter extends SyncService {
      */
     public function getPosts( $limit = 200 ) {
 
-        $response = json_decode( $this->service->request( 'statuses/user_timeline.json' ) );
+        $response = json_decode( $this->service->request( 'statuses/user_timeline.json' ), true );
         $list     = [ ];
 
         if ( ! empty( $response ) ) {
             foreach ( $response as $item ) {
-                if ( is_object( $item ) ) {
+                if ( ! empty( $item['id'] ) && ! empty( $item['text'] ) ) {
                     $list[] = [
-                        'service_id_author' => $item->user->id,
-                        'service_id_post'   => $item->id,
-                        'time_created'      => strtotime( $item->created_at ),
-                        'content'           => $item->text
+                        'service_id_author' => isset($item['user']['id']) ? $item['user']['id'] : null,
+                        'service_id_post'   => $item['id'],
+                        'time_created'      => isset($item['created_at']) ? strtotime( $item['created_at'] ) : null ,
+                        'content'           => $item['text']
                     ];
                 }
             }

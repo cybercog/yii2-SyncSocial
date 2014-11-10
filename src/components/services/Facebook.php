@@ -26,13 +26,13 @@ class Facebook extends SyncService {
 
         $response = json_decode( $this->service->request( '/me/feed', 'POST', [
             'message' => $message
-        ] ) );
+        ] ), true );
 
-        if ( isset( $response->id ) ) {
+        if ( isset( $response['id'] ) ) {
             return [
-                'service_id_author' => isset( $response->user->id ) ? isset( $response->user->id ) : null,
-                'service_id_post'   => $response->id,
-                'time_created'      => isset( $response->created_at ) ? strtotime( $response->created_at ) : time()
+                'service_id_author' => isset( $response['user']['id'] ) ? isset( $response['user']['id'] ) : null,
+                'service_id_post'   => $response['id'],
+                'time_created'      => isset( $response['created_at'] ) ? strtotime( $response['created_at'] ) : time()
             ];
         } else {
             return [ ];
@@ -41,21 +41,24 @@ class Facebook extends SyncService {
     }
 
     /**
-     * @return mixed|void
+     * @param int $limit
+     *
+     * @return array
+     * @throws \OAuth\Common\Token\Exception\ExpiredTokenException
      */
     public function getPosts( $limit = 100 ) {
 
         $response = json_decode( $this->service->request( '/me/feed' ), true );
         $list     = [ ];
 
-        if ( ! empty( $response->data ) ) {
-            foreach ( $response->data as $item ) {
-                if ( is_object( $item ) ) {
+        if ( ! empty( $response['data'] ) ) {
+            foreach ( $response['data'] as $item ) {
+                if ( ! empty( $item['id'] ) && ! empty( $item['message'] ) ) {
                     $list[] = [
-                        'service_id_author' => $item->from->id,
-                        'service_id_post'   => $item->id,
-                        'time_created'      => strtotime( $item->created_time ),
-                        'content'           => $item->message
+                        'service_id_author' => isset( $item['from']['id'] ) ? $item['from']['id'] : null,
+                        'service_id_post'   => $item['id'],
+                        'time_created'      => isset( $item['created_time'] ) ? strtotime( $item['created_time'] ) : time(),
+                        'content'           => $item['message']
                     ];
                 }
             }

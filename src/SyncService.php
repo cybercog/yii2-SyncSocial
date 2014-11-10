@@ -3,8 +3,8 @@
 namespace xifrin\SyncSocial;
 
 use Yii;
+use yii\base\Exception;
 use yii\base\Object;
-use OAuth\Common\Exception\Exception;
 use OAuth\OAuth1\Service\ServiceInterface as OAuth1Interface;
 use OAuth\OAuth2\Service\ServiceInterface as OAuth2Interface;
 

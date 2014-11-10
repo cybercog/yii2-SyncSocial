@@ -25,7 +25,7 @@ class SyncService extends Object implements ISyncService {
     protected $options = [];
 
     /**
-     * @param \OAuth\Common\Service\ServiceInterface $service
+     * @param \OAuth\Common\Service\AbstractService $service
      * @param array $options
      */
     public function __construct( $service, $options = [] ) {

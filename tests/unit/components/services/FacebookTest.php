@@ -56,13 +56,11 @@ class FacebookTest extends TestCase {
     }
 
     public function _before() {
-        if ( ! isset( $_SESSION ) ) {
-            $token = new StdOAuth2Token();
-            $token->setAccessToken( 'access_token' );
+        $token = new StdOAuth2Token();
+        $token->setAccessToken( 'access_token' );
 
-            $this->storage = new Session( false );
-            $this->storage->storeAccessToken( 'Facebook', $token );
-        }
+        $this->storage = new Session( false );
+        $this->storage->storeAccessToken( 'Facebook', $token );
     }
 
     /**

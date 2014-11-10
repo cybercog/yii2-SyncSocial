@@ -22,13 +22,13 @@ class SyncService extends Object implements ISyncService {
     /**
      * @var
      */
-    protected $options = [];
+    protected $options = [ ];
 
     /**
      * @param \OAuth\Common\Service\AbstractService $service
      * @param array $options
      */
-    public function __construct( $service, $options = [] ) {
+    public function __construct( $service, $options = [ ] ) {
         $this->service = $service;
         $this->options = $options;
     }
@@ -43,7 +43,7 @@ class SyncService extends Object implements ISyncService {
     /**
      * @return mixed
      */
-    public function getName(){
+    public function getName() {
         return $this->service->service();
     }
 
@@ -69,14 +69,19 @@ class SyncService extends Object implements ISyncService {
      */
     protected function connectOAuth1() {
 
+        /**
+         * @var \OAuth\OAuth1\Service\AbstractService $service
+         */
+
         if ( empty( $_GET['oauth_token'] ) || empty( $_GET['oauth_verifier'] ) ) {
             throw new Exception( Yii::t( 'SyncSocial', 'OAuth token must be specified' ) );
         }
 
-        $storage = $this->service->getStorage();
-        $token   = $storage->retrieveAccessToken( $this->service->service() );
+        $service = $this->service;
+        $storage = $service->getStorage();
+        $token   = $storage->retrieveAccessToken( $service->service() );
 
-        $this->service->requestAccessToken(
+        $service->requestAccessToken(
             $_GET['oauth_token'],
             $_GET['oauth_verifier'],
             $token->getRequestTokenSecret()
@@ -88,11 +93,16 @@ class SyncService extends Object implements ISyncService {
      * @throws Exception
      */
     protected function connectOAuth2() {
+        /**
+         * @var \OAuth\OAuth2\Service\AbstractService $service
+         */
+
         if ( empty( $_GET['code'] ) ) {
             throw new Exception( Yii::t( 'SyncSocial', 'Code must be specified' ) );
         }
 
-        $this->service->requestAccessToken( $_GET['code'] );
+        $service = $this->service;
+        $service->requestAccessToken( $_GET['code'] );
     }
 
     /**
@@ -100,8 +110,8 @@ class SyncService extends Object implements ISyncService {
      *
      * @return bool
      */
-    public function hasConnectionExtraParameters($parameters){
-        return isset($parameters['user_id']);
+    public function hasConnectionExtraParameters( $parameters ) {
+        return isset( $parameters['user_id'] );
     }
 
     /**
@@ -113,10 +123,10 @@ class SyncService extends Object implements ISyncService {
         $hasAccessToken = $storage->hasAccessToken( $serviceName );
 
         if ( $hasAccessToken ) {
-            $token = $storage->retrieveAccessToken( $serviceName );
+            $token      = $storage->retrieveAccessToken( $serviceName );
             $parameters = $token->getExtraParams();
 
-            return ! $token->isExpired() && $this->hasConnectionExtraParameters($parameters);
+            return ! $token->isExpired() && $this->hasConnectionExtraParameters( $parameters );
         }
     }
 
@@ -160,7 +170,7 @@ class SyncService extends Object implements ISyncService {
      *
      * @return array
      */
-    public function publishPost($message, $url = null) {
+    public function publishPost( $message, $url = null ) {
         return [ ];
     }
 

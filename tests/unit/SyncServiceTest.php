@@ -32,7 +32,7 @@ class SyncServiceTest extends TestCase {
      */
     private function buildOAuth1Service() {
         $credentials = new Credentials( 'fakeKey', 'fakeSecret', 'fakeURL' );
-        $storage     = new Session();
+        $storage     = new Session(false);
 
         $factory = new ServiceFactory;
 
@@ -46,7 +46,7 @@ class SyncServiceTest extends TestCase {
      */
     private function buildOAuth2Service() {
         $credentials = new Credentials( 'fakeKey', 'fakeSecret', 'fakeURL' );
-        $storage     = new Session();
+        $storage     = new Session(false);
 
         $factory = new ServiceFactory;
 

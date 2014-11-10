@@ -22,9 +22,11 @@ class Vkontakte extends SyncService {
     protected $service;
 
     /**
-     * @return array
+     * @param $limit
+     *
+     * @return string
      */
-    public function getPosts( $limit = 100 ) {
+    protected function getWallGetRequest( $limit ) {
 
         $parameters = [
             'owner_id'   => isset( $this->options['owner_id'] ) ? $this->options['owner_id'] : null,
@@ -34,7 +36,15 @@ class Vkontakte extends SyncService {
 
         $query = http_build_query( $parameters );
 
-        $response = $this->service->request( 'wall.get' . ( ! empty( $query ) ? "?" . $query : null ), 'GET' );
+        return 'wall.get' . ! empty( $query ) ? "?" . $query : null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPosts( $limit = 100 ) {
+
+        $response = $this->service->request( $this->getWallGetRequest( $limit ), 'GET' );
 
         $list     = [ ];
         $response = json_decode( $response, true );

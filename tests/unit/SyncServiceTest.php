@@ -35,7 +35,9 @@ class SyncServiceTest extends TestCase {
 
         $factory = new ServiceFactory;
 
-        return $factory->createService( 'TestOAuth1Service', $credentials, $storage );
+        $service = $factory->createService( 'TestOAuth1Service', $credentials, $storage );
+
+        return $service;
     }
 
     /**
@@ -47,7 +49,9 @@ class SyncServiceTest extends TestCase {
 
         $factory = new ServiceFactory;
 
-        return $factory->createService( 'TestOAuth2Service', $credentials, $storage );
+        $service = $factory->createService( 'TestOAuth2Service', $credentials, $storage );
+
+        return $service;
     }
 
     public function testSyncServiceGetName() {
@@ -72,6 +76,19 @@ class SyncServiceTest extends TestCase {
         $service = $this->buildOAuth1Service();
         $sync  = new SyncService($service);
         $this->assertTrue( $service->getAuthorizationUri() == $sync->getAuthorizationUri() );
+    }
+
+
+    public function
+
+    public function testConnect(){
+
+        $service = $this->buildOAuth2Service();
+        $sync  = new SyncService($service);
+        $sync->connect();
+
+        $sync
+
     }
 
 }

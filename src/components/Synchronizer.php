@@ -163,9 +163,8 @@ class Synchronizer extends Component {
             $key    = isset( $connection['key'] ) ? $connection['key'] : null;
             $secret = isset( $connection['secret'] ) ? $connection['secret'] : null;
             $url    = $this->getConnectUrl( $serviceName );
-            $scopes = isset( $connection['scopes'] ) ? $connection['scopes'] : null;
 
-            $credentials = new Credentials( $key, $secret, $url, $scopes );
+            $credentials = new Credentials( $key, $secret, $url );
 
             $service = $this->factory->createService( $serviceName, $credentials, $this->storage );
             $options = isset( $settings['options'] ) ? $settings['options'] : [ ];

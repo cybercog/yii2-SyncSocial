@@ -15,7 +15,7 @@ use OAuth\OAuth2\Service\ServiceInterface as OAuth2Interface;
 class SyncService extends Object implements ISyncService {
 
     /**
-     * @var \OAuth\Common\Service\ServiceInterface
+     * @var \OAuth\Common\Service\AbstractService
      */
     protected $service;
 

@@ -19,24 +19,25 @@ class Facebook extends SyncService {
      * @param $message
      * @param null $url
      *
-     * @return array|bool
+     * @return array
      * @throws \OAuth\Common\Token\Exception\ExpiredTokenException
      */
     public function publishPost( $message, $url = null ) {
 
-        $response = json_decode( $this->service->request( '/me/feed' , 'POST', [
+        $response = json_decode( $this->service->request( '/me/feed', 'POST', [
             'message' => $message
-        ] ));
+        ] ) );
 
         if ( isset( $response->id ) ) {
             return [
-                'service_id_author' => $response->user->id,
+                'service_id_author' => isset( $response->user->id ) ? isset( $response->user->id ) : null,
                 'service_id_post'   => $response->id,
-                'time_created'      => strtotime( $response->created_at )
+                'time_created'      => isset( $response->created_at ) ? strtotime( $response->created_at ) : time()
             ];
+        } else {
+            return [ ];
         }
 
-        return $list;
     }
 
     /**

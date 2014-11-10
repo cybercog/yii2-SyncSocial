@@ -158,10 +158,10 @@ class SyncService extends Object implements ISyncService {
      *          'time_created'      => strtotime( 'Thu Oct 23 07:00:00 +0000 2014' ),
      *      ];
      *
-     * @return boolean
+     * @return array
      */
     public function publishPost($message, $url = null) {
-        return true;
+        return [ ];
     }
 
 }

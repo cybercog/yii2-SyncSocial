@@ -22,7 +22,7 @@ class Vkontakte extends SyncService {
     protected $service;
 
     /**
-     * @return mixed|void
+     * @return array
      */
     public function getPosts( $limit = 100 ) {
 

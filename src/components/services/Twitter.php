@@ -34,7 +34,7 @@ class Twitter extends SyncService {
      * @param $message
      * @param null $url
      *
-     * @return bool|mixed
+     * @return array
      */
     public function publishPost( $message, $url = null ) {
 
@@ -48,12 +48,14 @@ class Twitter extends SyncService {
                 'service_id_post'   => $response->id,
                 'time_created'      => strtotime( $response->created_at )
             ];
+        } else {
+            return [ ];
         }
 
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getPosts( $limit = 200 ) {
 

@@ -41,7 +41,7 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName() {
         return $this->service->service();
@@ -131,7 +131,7 @@ class SyncService extends Object implements ISyncService {
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function disconnect() {
         $storage = $this->service->getStorage();

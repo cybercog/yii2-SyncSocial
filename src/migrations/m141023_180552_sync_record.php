@@ -6,7 +6,7 @@ use yii\db\Migration;
 class m141023_180552_sync_record extends Migration {
 
     /**
-     * @return bool|null
+     * @return boolean
      */
     public function up() {
         $tableOptions = null;
@@ -26,7 +26,7 @@ class m141023_180552_sync_record extends Migration {
     }
 
     /**
-     * @return bool|null
+     * @return boolean
      */
     public function down() {
         $this->dropTable( '{{%sync_model}}' );

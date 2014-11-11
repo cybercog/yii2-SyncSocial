@@ -58,8 +58,9 @@ class ActionSynchronize extends Action {
     }
 
     /**
-     * @param $successMessage
-     * @param $failedMessage
+     * @param string $successMessage
+     * @param string $failedMessage
+     * @param boolean|null $flag
      */
     protected function redirectWithMessages( $flag, $successMessage, $failedMessage ) {
         if ( $flag ) {

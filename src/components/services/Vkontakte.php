@@ -22,7 +22,7 @@ class Vkontakte extends SyncService {
     protected $service;
 
     /**
-     * @param $limit
+     * @param integer $limit
      *
      * @return string
      */

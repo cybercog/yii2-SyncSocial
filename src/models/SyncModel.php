@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\models;
+namespace ifrin\SyncSocial\models;
 
 use Yii;
 use yii\db\ActiveRecord;

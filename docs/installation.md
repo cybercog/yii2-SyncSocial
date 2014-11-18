@@ -6,5 +6,5 @@ at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 You can then install the extension using the following command:
 
 ```
-composer.phar require "xifrin/SyncSocial:1.0.0-beta"
+composer.phar require "ifrin/SyncSocial:1.0.0-beta"
 ```

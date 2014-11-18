@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\actions;
+namespace ifrin\SyncSocial\actions;
 
 use Yii;
 use yii\base\Action;
@@ -8,7 +8,7 @@ use yii\base\Exception;
 
 /**
  * Class RunAction
- * @package xifrin\SyncSocial\actions
+ * @package ifrin\SyncSocial\actions
  */
 class ActionSynchronize extends Action {
     /**
@@ -27,7 +27,7 @@ class ActionSynchronize extends Action {
     public $componentName = 'synchronizer';
 
     /**
-     * @var \xifrin\SyncSocial\components\Synchronizer
+     * @var \ifrin\SyncSocial\components\Synchronizer
      */
     protected $synchronizer;
 

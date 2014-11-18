@@ -1,12 +1,12 @@
 <?php
 
-namespace xifrin\SyncSocial\components\services;
+namespace ifrin\SyncSocial\components\services;
 
-use xifrin\SyncSocial\SyncService;
+use ifrin\SyncSocial\SyncService;
 
 /**
  * Class Vkontakte
- * @package xifrin\SyncSocial\components\services
+ * @package ifrin\SyncSocial\components\services
  */
 class Vkontakte extends SyncService {
 

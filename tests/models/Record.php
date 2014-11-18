@@ -3,7 +3,7 @@
 namespace tests\models;
 
 use yii\db\ActiveRecord;
-use xifrin\SyncSocial\behaviors\SynchronizerBehavior;
+use ifrin\SyncSocial\behaviors\SynchronizerBehavior;
 
 /**
  * This is the model class for table "record".
@@ -47,6 +47,6 @@ class Record extends ActiveRecord {
      */
     public function getSyncModel()
     {
-        return $this->hasOne('\xifrin\SyncSocial\models\SyncModel', ['model_id' => 'id_sign']);
+        return $this->hasOne('\ifrin\SyncSocial\models\SyncModel', ['model_id' => 'id_sign']);
     }
 }

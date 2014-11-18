@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\components;
+namespace ifrin\SyncSocial\components;
 
 use Closure;
 use OAuth\Common\Consumer\Credentials;
@@ -8,13 +8,13 @@ use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
 use yii\base\Exception;
-use xifrin\SyncSocial\models\SyncModel;
+use ifrin\SyncSocial\models\SyncModel;
 
 \Yii::setAlias( '@SyncSocial', dirname( dirname( __DIR__ ) ) );
 
 /**
  * Class Synchronizer
- * @package xifrin\SyncSocial\components
+ * @package ifrin\SyncSocial\components
  */
 class Synchronizer extends Component {
 
@@ -150,11 +150,11 @@ class Synchronizer extends Component {
      *
      * @param $serviceName
      *
-     * @return \xifrin\SyncSocial\SyncService|null
+     * @return \ifrin\SyncSocial\SyncService|null
      */
     protected function factorySynchronizer( $serviceName ) {
 
-        $class = 'xifrin\\SyncSocial\\components\\services\\' . ucfirst( $serviceName );
+        $class = 'ifrin\\SyncSocial\\components\\services\\' . ucfirst( $serviceName );
         if ( class_exists( $class ) ) {
 
             $settings   = isset( $this->settings[ $serviceName ] ) ? $this->settings[ $serviceName ] : [ ];
@@ -183,7 +183,7 @@ class Synchronizer extends Component {
     /**
      * @param $serviceName
      *
-     * @return null|\xifrin\SyncSocial\SyncService
+     * @return null|\ifrin\SyncSocial\SyncService
      */
     public function getService( $serviceName ) {
         if ( ! isset( $this->services[ $serviceName ] ) ) {

@@ -3,7 +3,7 @@
 namespace tests\unit\components\services;
 
 use OAuth\OAuth2\Token\StdOAuth2Token;
-use xifrin\SyncSocial\components\services\Twitter;
+use ifrin\SyncSocial\components\services\Twitter;
 use Yii;
 use yii\codeception\TestCase;
 use Mockery;

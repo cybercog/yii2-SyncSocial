@@ -10,7 +10,7 @@ Add the following in your config:
 
         // add Synchronizer component
         'synchronizer' => [
-            'class'       => '\xifrin\SyncSocial\components\Synchronizer',
+            'class'       => '\ifrin\SyncSocial\components\Synchronizer',
             'model'       => '\app\models\Post',
             // 'attribute'   => 'content',
             'services'    => [
@@ -85,17 +85,17 @@ Add the following in your controller:
         public function actions() {
             return [
                 'connect' => [
-                    'class' => 'xifrin\SyncSocial\actions\ConnectAction',
+                    'class' => 'ifrin\SyncSocial\actions\ConnectAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
                     // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ],
                 'disconnect' => [
-                    'class' => 'xifrin\SyncSocial\actions\ConnectAction',
+                    'class' => 'ifrin\SyncSocial\actions\ConnectAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
                     // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ],
                 'sync' => [
-                    'class' => 'xifrin\SyncSocial\actions\SyncAction',
+                    'class' => 'ifrin\SyncSocial\actions\SyncAction',
                     // 'successUrl' => 'YOUR_CUSTOM_SUCCESS_URL',
                     // 'failedUrl' => 'YOUR_CUSTOM_FAILED_URL'
                 ]
@@ -114,7 +114,7 @@ Add the following in your model:
      */
     public function getSyncModel()
     {
-        return $this->hasOne('\xifrin\SyncSocial\models\SyncModel', ['model_id' => 'id']);
+        return $this->hasOne('\ifrin\SyncSocial\models\SyncModel', ['model_id' => 'id']);
     }
 
     //..
@@ -127,7 +127,7 @@ Add the following in your model:
     {
         return [
             //..
-            \xifrin\SyncSocial\behaviors\SynchronizerBehavior::className(),
+            \ifrin\SyncSocial\behaviors\SynchronizerBehavior::className(),
             //..
         ];
     }
@@ -138,5 +138,5 @@ Add the following in your model:
 Run migration to create table for sync related model:
 
 ```bash
-php app/yiic.php migrate --migrationPath='@vendor/xifrin/yii2-syncsocial/src/migrations'
+php app/yiic.php migrate --migrationPath='@vendor/ifrin/yii2-syncsocial/src/migrations'
 ```

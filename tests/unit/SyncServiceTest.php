@@ -9,7 +9,7 @@ use yii\codeception\TestCase;
 use \OAuth\Common\Consumer\Credentials;
 use \OAuth\Common\Storage\Session;
 use \OAuth\ServiceFactory;
-use \xifrin\SyncSocial\SyncService;
+use \ifrin\SyncSocial\SyncService;
 
 
 /**

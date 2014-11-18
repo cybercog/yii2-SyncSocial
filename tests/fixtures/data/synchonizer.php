@@ -2,7 +2,7 @@
 
 return [
     'default' => [
-        'class'           => '\xifrin\SyncSocial\components\Synchronizer',
+        'class'           => '\ifrin\SyncSocial\components\Synchronizer',
         'model'           => '\tests\models\Record',
         'settings'        => [
             'facebook'  => [

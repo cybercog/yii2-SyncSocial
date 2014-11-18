@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\commands;
+namespace ifrin\SyncSocial\commands;
 
 use Yii;
 use yii\base\ErrorException;
@@ -8,7 +8,7 @@ use yii\console\Controller;
 
 /**
  * Class PublishController
- * @package xifrin\SyncSocial\commands
+ * @package ifrin\SyncSocial\commands
  */
 class SyncController extends Controller
 {

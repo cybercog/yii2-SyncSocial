@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial;
+namespace ifrin\SyncSocial;
 
 use Yii;
 use yii\base\Exception;
@@ -10,7 +10,7 @@ use OAuth\OAuth2\Service\ServiceInterface as OAuth2Interface;
 
 /**
  * Class SyncService
- * @package xifrin\SyncSocial
+ * @package ifrin\SyncSocial
  */
 class SyncService extends Object implements ISyncService {
 

@@ -5,7 +5,7 @@ use Codeception\Util\Debug;
 use Yii;
 use yii\codeception\TestCase;
 
-use xifrin\SyncSocial\components\Synchronizer;
+use ifrin\SyncSocial\components\Synchronizer;
 
 /**
  * Class SynchronizerTest

@@ -1,12 +1,12 @@
 <?php
 
-namespace xifrin\SyncSocial\actions;
+namespace ifrin\SyncSocial\actions;
 
 use Yii;
 
 /**
  * Class RunAction
- * @package xifrin\SyncSocial\actions
+ * @package ifrin\SyncSocial\actions
  */
 class SyncAction extends ActionSynchronize {
 

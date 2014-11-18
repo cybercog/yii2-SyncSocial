@@ -1,10 +1,10 @@
 <?php
 
-namespace xifrin\SyncSocial;
+namespace ifrin\SyncSocial;
 
 /**
  * Interface ISyncService
- * @package xifrin\SyncSocial
+ * @package ifrin\SyncSocial
  */
 interface ISyncService {
 

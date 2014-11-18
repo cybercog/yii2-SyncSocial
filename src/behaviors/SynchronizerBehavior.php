@@ -1,6 +1,6 @@
 <?php
 
-namespace xifrin\SyncSocial\behaviors;
+namespace ifrin\SyncSocial\behaviors;
 
 use Yii;
 use yii\base\Behavior;
@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 
 /**
  * Class SynchronizerBehavior
- * @package xifrin\SyncSocial\behaviors
+ * @package ifrin\SyncSocial\behaviors
  */
 class SynchronizerBehavior extends Behavior {
 
@@ -18,12 +18,12 @@ class SynchronizerBehavior extends Behavior {
     public $componentName = 'synchronizer';
 
     /**
-     * @var \xifrin\SyncSocial\components\Synchronizer
+     * @var \ifrin\SyncSocial\components\Synchronizer
      */
     protected $synchronizer;
 
     /**
-     * @return \xifrin\SyncSocial\components\Synchronizer
+     * @return \ifrin\SyncSocial\components\Synchronizer
      * @throws Exception
      */
     protected function getSynchonizer() {
